@@ -3,6 +3,8 @@ import {Select,Link,List,ListItem,Flex,Box,Heading,Button,Stack,Input,Icon,useTo
 import {MyContext} from '../../context'
 import { MdEdit} from 'react-icons/md';
 
+
+//aqui empieza Israel
 export default function Clientes({history}) {  
     const context = useContext(MyContext)
     const toast = useToast()

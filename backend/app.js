@@ -15,7 +15,7 @@ const sql = require('mssql')
 const config = {
   "user": 'Ale',
   "password": '123',
-  "server": 'DESKTOP-JCS4PJ6',//'localhost',
+  "server": 'localhost',
   "database": 'PortalCliente'
 };
 sql.connect(config)

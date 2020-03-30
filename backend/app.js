@@ -15,7 +15,7 @@ const sql = require('mssql')
 const config = {
   "user": 'Ale',
   "password": '123',
-  "server": 'DESKTOP-JCS4PJ6',//'localhost',
+  "server": 'localhost',
   "database": 'PortalCliente'
 };
 sql.connect(config)
@@ -23,11 +23,7 @@ sql.connect(config)
   console.log(`Connected to SQL Server! Database name: "${x.config.database}"`)
 })
 .catch(err=>console.error('Error connecting to sql', err))
-/*mongoose
-  .connect(process.env.DB, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then((x) => console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`))
-  .catch((err) => console.error('Error connecting to mongo', err));
-*/
+
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
@@ -60,9 +56,19 @@ app.use(logger('dev'));
 
 
 app.use('/', require('./routes/index'));
-app.use('/', require('./routes/auth'));
-app.use('/contrato', require('./routes/contratos'));
-app.use('/cliente', require('./routes/cliente'));
+//para cuando llama favicon.ico 
+app.use((req, res, next)=>{
+
+  if (req.originalUrl && req.originalUrl.split("/").pop() === 'favicon.ico') {
+    return res.sendStatus(204);
+  }
+
+  return next();
+
+});
+//app.use('/', require('./routes/auth'));
+//app.use('/contrato', require('./routes/contratos'));
+//app.use('/cliente', require('./routes/cliente'));
 
 
 // Uncomment this line for production

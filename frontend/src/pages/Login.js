@@ -20,6 +20,7 @@ export default function Login({ history }) {
       })
     }
   }
+  
   return (
     <MyContext.Consumer>
       {context => {
@@ -42,6 +43,7 @@ export default function Login({ history }) {
                 </Button>
               </Stack>
             </Box>
+            <a  href="/singup">Crear Cuenta </a>
           </>
         );
       }}

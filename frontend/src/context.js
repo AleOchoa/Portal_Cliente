@@ -6,7 +6,7 @@ import {
   withRouter
 } from 'react-router-dom'
 import SERVICE from './services/index'
-//import axios from 'axios'
+
 
 export const MyContext = createContext()
 
@@ -15,8 +15,15 @@ class MyProvider extends Component {
     edita:false,
     nuevo:false,
     formSignup: {
-      name: '',
-      email: ''
+      Nombre: '',
+      Paterno: '',
+      Materno: '',
+      FechaNacimiento: '',
+      Email:'',
+      EmailConfirm: '',
+      Password: '',
+      PasswordConfirm:'',
+      NoCliente:''
     },
     formLogin: {
       email: '',
@@ -92,13 +99,14 @@ class MyProvider extends Component {
   }
 
   async componentDidMount() {
-    const data = await SERVICE.feedAll()
+    /*const data = await SERVICE.feedAll()
     this.setState({
       feed: true,
       allUsers: data.users,
       allContracts: data.contracts,
       allClients: data.clients
     })
+    */
   }
 
   onClose = () => {
@@ -170,13 +178,22 @@ class MyProvider extends Component {
       isAdmin:false
     })
   }
+  //NoCliente,Nombre,Paterno,Materno,FechaNacimiento,Email,EmailConfirm,Password,PasswordConfirm
   handleSignupSubmit = async e => {
     e.preventDefault()
     const form = this.state.formSignup
     this.setState({
       formSignup: {
-        name: '',
-        email: ''
+        Nombre: '',
+        Paterno: '',
+        Materno: '',
+        FechaNacimiento: '',
+        Email:'',
+        EmailConfirm: '',
+        Password: '',
+        PasswordConfirm:'',
+        NoCliente:''
+
       },
       nuevo:false
     })

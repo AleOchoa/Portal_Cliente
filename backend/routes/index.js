@@ -1,7 +1,16 @@
 const router = require('express').Router();
 const sql= require('mssql')
 const bcrypt=require('bcrypt')
-
+//const { generateToken, verifyToken } = require('../config/jwt')
+/*const hasPermission = (req, res, next) => {
+  const { headload, signature } = req.cookies
+  if (!headload || !signature) {
+    return res.redirect('/')
+  } else {
+    verifyToken(`${headload}.${signature}`) ? next() : res.redirect('/')
+  }
+}
+ */
 router.get('/', (req, res) => {
   const request = new sql.Request();
   request.query('select * from Empresa', function (err, recordset) {
@@ -108,4 +117,49 @@ router.post('/signup',async (req,res)=>{
   
 })
 
+router.post('/login',async (req,res)=>{
+  const {Email,Password}=req.body
+
+  const request=new sql.Request();
+  const user = await request.input("email",sql.VarChar(100),Email)
+                            .query('select * from Usuarios where Email=@email').catch(err=>console.log(err))
+  
+  if (user.rowsAffected[0]>0 ) {
+    const hashPassword=user.recordset[0].Password
+    const result= await bcrypt.compareSync(Password, hashPassword)
+    if (result) {
+      const data=await request.input("IdCliente",sql.Int,user.recordset[0].IdCliente)
+                            .query('Select * from Clientes where IdCliente=@IdCliente').catch(err=>console.log(err))
+      
+      req.session.loggedUser = data.recordset[0]
+      req.app.locals.loggedUser = data.recordset[0]
+      res.status(200).json({cliente:data.recordset[0]})
+    }
+    else {
+      res.status(401).json({msg:'Contraseña incorrecta'})
+    }
+  }
+  else{
+    res.status(400).json({msg:'No existe el usuario'})
+  }
+/*const [header, payload, signature] = generateToken({ id, name })
+  res.cookie('headload', `${header}.${payload}`, {
+    // secure: true,
+    // expires: 1000 * 60 * 30
+  })
+  res.cookie('signature', signature, {
+    // httpOnly: true,
+    // secure: true
+  })
+  router.get('/private', hasPermission, (req, res) => {
+  res.send('tu token era valido')
+})
+ */
+})
+router.get('/logout',async (req,res)=>{
+    await req.session.destroy()
+    req.logOut()
+    res.status(200).json({msg:"Sesión finalizada"})
+  }
+)
 module.exports = router;

@@ -16,7 +16,11 @@ const config = {
   "user": 'Ale',
   "password": '123',
   "server": 'localhost',
-  "database": 'PortalCliente'
+  "database": 'PortalCliente',
+  "options": {
+    //"encrypt": true,//Si se usa Azure
+    "enableArithAbort": true
+    }
 };
 sql.connect(config)
 .then(x=>{//console.log(x)

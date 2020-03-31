@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const sql= require('mssql')
+const bcrypt=require('bcrypt')
 
 router.get('/', (req, res) => {
   const request = new sql.Request();
@@ -65,15 +66,27 @@ router.post('/signup',async (req,res)=>{
       if (Email===EmailConfirm) {
         //Confirmamos que los passwords sean los mismos
         if (Password===PasswordConfirm) {
+          //Hacemos el hash del password
+          const salt=await bcrypt.genSalt(Number(process.env.SALT))
+          const hashPassword=await bcrypt.hash(Password,salt)
           //Procedemos a crear el usuario en bd
           const newData = await request.input("email",sql.VarChar(100),Email)
-                    .input('password',sql.VarChar(20),Password)
+                    .input('password',sql.VarChar(sql.MAX),hashPassword)
                     .input("IdPerfil",sql.Int,data.recordset[0].IdPerfil)
                     .input("FechaDefault",sql.DateTime,'1900-01-01')
                     .query(`insert into Usuarios (IdCliente,Email,Password,Bloqueo,
           FecCambioPassword,PrimerAcceso,FecUltimoAcceso,IdPerfil
           ) values (@IdCliente,@email,@password,0,@FechaDefault,1,@FechaDefault,@IdPerfil)`).catch(err=>console.log(err))
+          
           if(newData.rowsAffected[0]==1) {
+            const newUser= await request.query('select * from Usuarios where IdCliente=@IdCliente').catch(err=>console.log(err))
+            await request.input("IdUsuario",sql.Int,newUser.recordset[0].IdUsuario)
+                          .query(`update Clientes set Email=@email, 
+                                    IdUsuario=@IdUsuario
+                                  where Idcliente=@IdCliente`).catch(err=>console.log(err))
+            data.recordset[0].Email=newUser.recordset[0].Email
+            data.recordset[0].IdUsuario=newUser.recordset[0].IdUsuario
+            
             res.status(200).json({user:data.recordset[0]})
           }
           else{

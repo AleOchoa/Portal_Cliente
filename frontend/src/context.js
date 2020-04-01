@@ -201,13 +201,7 @@ class MyProvider extends Component {
       .then(async ({
         data
       }) => {
-        const {
-          users
-        } = await SERVICE.feedUsers()
-        this.setState({
-          allUsers: users
-        })
-        return {
+          return {
           user: data.user,
           msg: "Se ha mandado un correo al usuario."
         }

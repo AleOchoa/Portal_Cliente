@@ -10,8 +10,9 @@ export default function Signup({ history }) {
     const submit = async (e) => {
       const { user, msg } = await context.handleSignupSubmit(e)
       if (user) {
-        history.push('/contratos')
+          history.push('/contratos')
       } else {
+
         toast({
           title: 'Revisa tus credenciales.', description: msg, status: 'error', duration: 5000, isClosable: true
         })

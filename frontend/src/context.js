@@ -26,8 +26,8 @@ class MyProvider extends Component {
       NoCliente:''
     },
     formLogin: {
-      email: '',
-      password: ''
+      Email: '',
+      Password: ''
     },
     loggedUser: null,
     isLogged: false,
@@ -223,14 +223,14 @@ class MyProvider extends Component {
       .then(({
         data
       }) => {
-        if (data.user.isActive) {
+        if (data.cliente) {
           this.setState({
-            loggedUser: data.user,
+            loggedUser: data.cliente,
             isLogged: true
           })
-          if (data.user.rol==='Admin') {this.setState({isAdmin:true})}
+          //if (data.user.rol==='Admin') {this.setState({isAdmin:true})}
           return {
-            user: data.user,
+            user: data.cliente,
             msg: 'Login realizado.'
         }}
         else {
@@ -244,8 +244,8 @@ class MyProvider extends Component {
           loggedUser: null,
           isLogged: false,
           formLogin: {
-            email: '',
-            password: ''
+            Email: '',
+            Password: ''
           }
         })
         return {
@@ -255,8 +255,8 @@ class MyProvider extends Component {
       })
       .finally(() => this.setState({
         formLogin: {
-          email: '',
-          password: ''
+          Email: '',
+          Password: ''
         }
       }))
   }

@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
     if (err){ console.log(err)}
     else {
     // send records as a response
-    console.log(recordset)
+
     res.status(200).json(recordset);
     }
   });

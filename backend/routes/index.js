@@ -34,10 +34,10 @@ router.get('/perfil/:iduser',async (req,res)=>{
                                         on A.IdContrato=B.IdContrato and A.FechaCorte=B.FechaCorte) S
                                       ON C.IdContrato=s.IdContrato
                                     WHERE C.IdCliente=${iduser};
-                                    SELECT * FROM SaldosEdoCuenta WHERE IdContrato IN (SELECT IdContrato FROM Contrato WHERE IdCliente=${iduser})`
+                                    SELECT * FROM SaldosEdoCuenta WHERE IdContrato IN (SELECT IdContrato FROM Contrato WHERE IdCliente=${iduser});
+                                    select * from AvisoVencimiento where IdContrato in (select IdContrato from Contrato where IdCliente=${iduser});
+                                    select * from DetalleMovimientos where IdContrato in (select IdContrato from Contrato where IdCliente=${iduser})`
                                   ).catch(err=>console.log(err))
-  
-  
   const cliente=data.recordsets[0][0]
   let contratos=[]
   let contratosDetalle={}
@@ -48,7 +48,13 @@ router.get('/perfil/:iduser',async (req,res)=>{
     edoCuenta[contrato.NoContrato[0]]={}
   })
   data.recordsets[2].forEach(registro=>{
-    edoCuenta[registro.NoContrato][registro.FechaCorte.toISOString().substring(0,10)]=registro
+    edoCuenta[registro.NoContrato][registro.FechaCorte.toISOString().substring(0,7)]=registro
+  })
+  data.recordsets[3].forEach(registro=>{
+    edoCuenta[registro.NoContrato][registro.VnFechaCorte.toISOString().substring(0,7)]['AvisoVencimiento']=registro
+  })
+  data.recordsets[4].forEach(registro=>{
+    edoCuenta[registro.NoContrato][registro.FechaCorte.toISOString().substring(0,7)]['DetalleMovimientos']=registro
   })
   res.status(200).json({cliente,contratos,contratosDetalle,edoCuenta})
 })
@@ -58,7 +64,7 @@ router.post('/signup',async (req,res)=>{
   const request=new sql.Request();
   //Se busca si hay un cliente con ese NoCliente, Nombre Completo y Fecha de Nacimiento
   const data = await request.input("NoCliente",sql.Int,NoCliente)
-                  .input("NombreCompleto",sql.VarChar(200),Nombre+' '+Paterno+' '+Materno)
+                  .input("NombreCompleto",sql.VarChar(200),Nombre.toUpperCase() +' '+Paterno.toUpperCase()+' '+Materno.toUpperCase())
                   .input("Fecha",sql.DateTime,FechaNacimiento)
                   .query(`select * from Clientes where NoCliente= @NoCliente and NombreCliente=@NombreCompleto and FechaNacimiento=@Fecha`)
                   .catch(err=>res.status(500).json({msg:'No se pudo agregar el usuario'})) 

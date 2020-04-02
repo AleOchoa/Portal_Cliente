@@ -199,7 +199,6 @@ class MyProvider extends Component {
       .then(({
         data
       }) => {
-          console.log("entra",data)
           return {
           user: data.cliente,
           msg: data.msg

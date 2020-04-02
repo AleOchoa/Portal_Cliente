@@ -9,9 +9,9 @@ export default function Signup({ history }) {
     const context = useContext(MyContext)
   
     const submit = async (e) => {
-      const { user, msg } = await context.handleSignupSubmit(e)
+      const {user, msg } = await context.handleSignupSubmit(e)
       if (user) {
-        toast({
+          toast({
           position:"top",
           title: "Cliente creado",
           description: msg,
@@ -19,11 +19,12 @@ export default function Signup({ history }) {
           duration: 4000,
           isClosable: true,
         })
-          history.push('/contratos')
+        
+          history.push('/')
       } else {
 
         toast({
-          title: 'Revisa tus credenciales.', description: msg, status: 'error', duration: 5000, isClosable: true
+          title: 'Usuario no creado.', description: msg, status: 'error', duration: 5000, isClosable: true
         })
       }
     }

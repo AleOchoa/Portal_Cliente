@@ -68,9 +68,10 @@ router.get('/perfil/:iduser',async (req,res)=>{
 router.post('/signup',async (req,res)=>{
   const {NoCliente,Nombre,Paterno,Materno,FechaNacimiento,Email,EmailConfirm,Password,PasswordConfirm}=req.body 
   const request=new sql.Request();
+  const nombreCliente= Nombre.toUpperCase() +' '+Paterno.toUpperCase()+' '+Materno.toUpperCase()
   //Se busca si hay un cliente con ese NoCliente, Nombre Completo y Fecha de Nacimiento
   const data = await request.input("NoCliente",sql.Int,NoCliente)
-                  .input("NombreCompleto",sql.VarChar(200),Nombre.toUpperCase() +' '+Paterno.toUpperCase()+' '+Materno.toUpperCase())
+                  .input("NombreCompleto",sql.VarChar(200),nombreCliente)
                   .input("Fecha",sql.DateTime,FechaNacimiento)
                   .query(`select * from Clientes where NoCliente= @NoCliente and NombreCliente=@NombreCompleto and FechaNacimiento=@Fecha`)
                   .catch(err=>res.status(500).json({msg:'No se pudo agregar el usuario'})) 
@@ -108,7 +109,7 @@ router.post('/signup',async (req,res)=>{
             data.recordset[0].Email=newUser.recordset[0].Email
             data.recordset[0].IdUsuario=newUser.recordset[0].IdUsuario
             
-            res.status(200).json({user:data.recordset[0]})
+            res.status(200).json({cliente:data.recordset[0]})
           }
           else{
             res.status(500).json({msg:"Algo salió mal"})

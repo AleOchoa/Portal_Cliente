@@ -21,6 +21,9 @@ const MY_SERVICE = {
     return await service.get('/logout');
   },
 //Carga información
+  profile: async (IdCliente)=>{
+    return await service.get(`/perfil/${IdCliente}`)
+  },
   feedAll: async()=>{
     const users= await service.get('/usuarios')
     const clients= await service.get('/cliente')

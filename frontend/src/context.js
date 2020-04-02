@@ -67,9 +67,7 @@ class MyProvider extends Component {
       estado:"",
       cp:""
     },
-    allUsers: null,
-    allContracts: null,
-    allClients: null,
+    perfil:null,
     feed: false,
     isAdmin:false,
     contratoDetalle:null
@@ -201,9 +199,10 @@ class MyProvider extends Component {
       .then(async ({
         data
       }) => {
+
           return {
-          user: data.user,
-          msg: "Se ha mandado un correo al usuario."
+          user: data.cliente,
+          msg: "Cuenta creada."
         }
       })
       .catch(({
@@ -220,7 +219,7 @@ class MyProvider extends Component {
     e.preventDefault()
     const form = this.state.formLogin
     return SERVICE.login(form)
-      .then(({
+      .then(async ({
         data
       }) => {
         if (data.cliente) {
@@ -228,11 +227,15 @@ class MyProvider extends Component {
             loggedUser: data.cliente,
             isLogged: true
           })
-          //if (data.user.rol==='Admin') {this.setState({isAdmin:true})}
+          if (data.cliente.IdPerfil===1) {this.setState({isAdmin:true})}
+          const {data:userData}= await SERVICE.profile(data.cliente.IdCliente)
+          this.setState({perfil:userData})
+          console.log(this.state)
           return {
             user: data.cliente,
             msg: 'Login realizado.'
-        }}
+          }
+        }
         else {
         return {
           user: null,

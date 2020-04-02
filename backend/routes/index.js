@@ -34,9 +34,14 @@ router.get('/perfil/:iduser',async (req,res)=>{
                                         on A.IdContrato=B.IdContrato and A.FechaCorte=B.FechaCorte) S
                                       ON C.IdContrato=s.IdContrato
                                     WHERE C.IdCliente=${iduser};
-                                    SELECT * FROM SaldosEdoCuenta WHERE IdContrato IN (SELECT IdContrato FROM Contrato WHERE IdCliente=${iduser});
-                                    select * from AvisoVencimiento where IdContrato in (select IdContrato from Contrato where IdCliente=${iduser});
-                                    select * from DetalleMovimientos where IdContrato in (select IdContrato from Contrato where IdCliente=${iduser})`
+                                SELECT * FROM SaldosEdoCuenta WHERE IdContrato IN (SELECT IdContrato FROM Contrato WHERE IdCliente=${iduser});
+                                select * from AvisoVencimiento where IdContrato in (select IdContrato from Contrato where IdCliente=${iduser});
+                                select * from DetalleMovimientos where IdContrato in (select IdContrato from Contrato where IdCliente=${iduser});
+                                select NoCliente,max(A.FechaCorte) as FechaCorte,sum(SaldoAlCorte) as SaldoAlCorte from SaldosEdoCuenta A inner join 
+                                      (select IdContrato,Max(FechaCorte) FechaCorte From SaldosEdoCuenta group by IdContrato) B
+                                      on A.IdContrato=B.IdContrato and A.FechaCorte=B.FechaCorte 
+                                    where A.IdContrato IN (SELECT IdContrato FROM Contrato WHERE IdCliente=${iduser})
+                                    group by NoCliente`
                                   ).catch(err=>console.log(err))
   const cliente=data.recordsets[0][0]
   let contratos=[]
@@ -56,7 +61,8 @@ router.get('/perfil/:iduser',async (req,res)=>{
   data.recordsets[4].forEach(registro=>{
     edoCuenta[registro.NoContrato][registro.FechaCorte.toISOString().substring(0,7)]['DetalleMovimientos']=registro
   })
-  res.status(200).json({cliente,contratos,contratosDetalle,edoCuenta})
+  const resumen=data.recordsets[5][0]
+  res.status(200).json({cliente,contratos,contratosDetalle,edoCuenta,resumen})
 })
 
 router.post('/signup',async (req,res)=>{

@@ -81,7 +81,7 @@ router.post('/signup',async (req,res)=>{
     const verifyUser= await request.input("IdCliente",sql.Int,data.recordset[0].IdCliente)
                   .query('select * from Usuarios where IdCliente=@IdCliente').catch(err=>console.log(err))
     if(verifyUser.rowsAffected[0]>0){
-      res.status(401).json({msg:"Usuario no generado. El cliente ya tiene una cuenta."})
+      res.status(401).json({cliente:null,msg:"Usuario no generado. El cliente ya tiene una cuenta."})
     }
     else {
       //Confirmamos que los emails sean iguales
@@ -112,20 +112,20 @@ router.post('/signup',async (req,res)=>{
             res.status(200).json({cliente:data.recordset[0]})
           }
           else{
-            res.status(500).json({msg:"Algo salió mal"})
+            res.status(500).json({cliente:null,msg:"Algo salió mal"})
           }
         }
         else {
-          res.status(400).json({msg:'Los passwords no coinciden'})
+          res.status(400).json({cliente:null,msg:'Los passwords no coinciden'})
         }  
       }
       else {
-        res.status(400).json({msg:'Los email no coinciden'})
+        res.status(400).json({cliente:null,msg:'Los email no coinciden'})
       }
     }
   }
   else {
-    res.status(400).json({msg:'No existe el cliente'})
+    res.status(400).json({cliente:null,msg:'No existe el cliente'})
   }
   
 })

@@ -196,21 +196,21 @@ class MyProvider extends Component {
       nuevo:false
     })
     return await SERVICE.signup(form)
-      .then(async ({
+      .then(({
         data
       }) => {
-
+          console.log("entra",data)
           return {
           user: data.cliente,
-          msg: "Cuenta creada."
+          msg: data.msg
         }
       })
-      .catch(({
+      .catch((
         err
-      }) => {
+      ) => {
         return {
           user: null,
-          msg: "La cuenta ya existe."
+          msg: err.response.data.msg
         }
       })
   }

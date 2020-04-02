@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import {MyContext} from '../context'
-import {Box,Heading,Button,Stack,InputGroup,FormControl,Input,useToast, Text, FormLabel } from "@chakra-ui/core";
+import {Heading,Button,Stack,FormControl,Input,useToast, 
+  FormLabel } from "@chakra-ui/core";
 
 
 export default function Signup({ history }) {
@@ -10,6 +11,14 @@ export default function Signup({ history }) {
     const submit = async (e) => {
       const { user, msg } = await context.handleSignupSubmit(e)
       if (user) {
+        toast({
+          position:"top",
+          title: "Cliente creado",
+          description: msg,
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+        })
           history.push('/contratos')
       } else {
 

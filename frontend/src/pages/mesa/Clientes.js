@@ -1,8 +1,8 @@
-import React, {useContext} from 'react';
-//import {Select,Link,List,ListItem,Flex,Box,Heading,Button,Stack,Input,Icon,useToast, SimpleGrid,Text,InputLeftAddon, InputGroup } from "@chakra-ui/core";
+import React, {useContext,useEffect} from 'react';
+import {List,ListItem,Flex,Heading,useToast, SimpleGrid,Text } from "@chakra-ui/core";
 import {MyContext} from '../../context'
-import {Page, Text, View, Document, StyleSheet} from "@react-pdf/renderer";
-
+//import {Page, Text, View, Document, StyleSheet} from "@react-pdf/renderer";
+/*
 const styles = StyleSheet.create({
   page: {
       backgroundColor: "#ffffff"
@@ -28,9 +28,9 @@ export function PdfDocument(props) {
         </Document>
     );
 }
-
+*/
 //aqui empieza Israel
-/*
+
 export default function Clientes({history}) {  
     const context = useContext(MyContext)
     const toast = useToast()
@@ -110,7 +110,7 @@ export default function Clientes({history}) {
           }}
         </MyContext.Consumer>
       )
-}*/
+}
 
 
 

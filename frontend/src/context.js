@@ -228,7 +228,7 @@ class MyProvider extends Component {
           })
           if (data.cliente.IdPerfil===1) {this.setState({isAdmin:true})}
           const {data:userData}= await SERVICE.profile(data.cliente.IdCliente)
-          this.setState({perfil:userData})
+          this.setState({perfil:userData,feed:true})
           console.log(this.state)
           return {
             user: data.cliente,

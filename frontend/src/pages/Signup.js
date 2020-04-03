@@ -4,6 +4,7 @@ import {Heading,Button,Stack,FormControl,Input,useToast,
   FormLabel } from "@chakra-ui/core";
 
 
+
 export default function Signup({ history }) {
     const toast = useToast()
     const context = useContext(MyContext)
@@ -29,6 +30,7 @@ export default function Signup({ history }) {
       }
     }
     
+
     return (
       <MyContext.Consumer>
         {context => {
@@ -66,6 +68,7 @@ export default function Signup({ history }) {
                   </Button>
                 </Stack>
               </FormControl>
+              
             </>
           );
         }}

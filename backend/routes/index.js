@@ -45,11 +45,11 @@ router.get('/perfil/:iduser',async (req,res)=>{
                                   ).catch(err=>console.log(err))
   const cliente=data.recordsets[0][0]
   let contratos=[]
-  let contratosDetalle={}
-  let edoCuenta={}
+  let contratosDetalle=[]
+  let edoCuenta=[]
   data.recordsets[1].forEach(contrato=>{
     contratos.push(contrato.NoContrato[0])
-    contratosDetalle[contrato.NoContrato[0]]=contrato
+    contratosDetalle.push(contrato)//contratosDetalle[contrato.NoContrato[0]]=contrato
     edoCuenta[contrato.NoContrato[0]]={}
   })
   data.recordsets[2].forEach(registro=>{

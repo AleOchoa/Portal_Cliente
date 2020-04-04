@@ -48,6 +48,7 @@ router.get('/perfil/:iduser',async (req,res)=>{
   let contratosDetalle=[]
   let edoCuenta=[]
   data.recordsets[1].forEach(contrato=>{
+    contrato.show=false
     contratos.push(contrato.NoContrato[0])
     contratosDetalle.push(contrato)//contratosDetalle[contrato.NoContrato[0]]=contrato
     edoCuenta[contrato.NoContrato[0]]={}

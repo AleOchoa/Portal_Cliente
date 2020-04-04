@@ -7,13 +7,13 @@ import { FaUser} from 'react-icons/fa';
 export default function Contratos({history}) {  
   const [show, setShow] = React.useState(false);
   const go = path => history.push(path)
-  const handleToggle = () => setShow(!show);
-
-    const context = useContext(MyContext)
+  const context = useContext(MyContext)
+  const {perfil}= context.state
+  const handleToggle =  (id) => context.showContrato(id)  ;
     /*useEffect(()=>{
       if (!context.state.isLogged) return history.push('/')
     })*/
-    const {perfil}= context.state
+    
         
     return (
         <MyContext.Consumer>
@@ -63,7 +63,7 @@ export default function Contratos({history}) {
 {/*Resumen contratos*/}
 {perfil && perfil.contratosDetalle && perfil.contratosDetalle.map((contrato, id) => (
                   <Box margin="1vh 0" key={id}>
-                    <Collapse startingHeight={135} isOpen={show}>
+                    <Collapse startingHeight={135} isOpen={contrato.show}>
                       <Box height="135px" backgroundColor="#718096" color="#FFFFFF" display="flex" width="50vw" justifyContent="space-between" alignItems="center" padding="15px"> 
                         <Box>
                           <Heading size="md" fontWeight="100" width="20vw">Contrato</Heading>
@@ -107,7 +107,7 @@ export default function Contratos({history}) {
                       </Box>
 
                     </Collapse>
-                    {show ? <Box height="14px" backgroundColor="#CBD5E0" width="50vw"><IconButton height="14px" size="sm" onClick={handleToggle} aria-label="Search database" icon="chevron-up" /></Box> : <Box height="14px" backgroundColor="#718096" width="50vw"><IconButton height="14px" size="sm" onClick={handleToggle} aria-label="Search database" icon="chevron-down"  backgroundColor="#718096"/></Box>}
+                    {contrato.show ? <Box height="14px" backgroundColor="#CBD5E0" width="50vw"><IconButton height="14px" size="sm" onClick={()=>handleToggle(id)} aria-label="Search database" icon="chevron-up" /></Box> : <Box height="14px" backgroundColor="#718096" width="50vw"><IconButton height="14px" size="sm" onClick={()=>handleToggle(id)} aria-label="Search database" icon="chevron-down"  backgroundColor="#718096"/></Box>}
                     {/*<Button size="sm" onClick={handleToggle} mt="1rem">
                       Show {show ? "Less" : "More"}
                     </Button>*/}

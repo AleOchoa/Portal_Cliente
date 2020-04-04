@@ -166,7 +166,11 @@ class MyProvider extends Component {
       nuevo: true
     })
   }
-
+  showContrato = (id)=>{
+    const nuevoPerfil=this.state.perfil
+    nuevoPerfil.contratosDetalle[id].show=!this.state.perfil.contratosDetalle[id].show
+    this.setState({perfil:nuevoPerfil})
+  }
   handleLogout = async () => {
     await SERVICE.logOut()
     this.props.history.push('/')
@@ -229,7 +233,6 @@ class MyProvider extends Component {
           if (data.cliente.IdPerfil===1) {this.setState({isAdmin:true})}
           const {data:userData}= await SERVICE.profile(data.cliente.IdCliente)
           this.setState({perfil:userData,feed:true})
-          console.log(this.state)
           return {
             user: data.cliente,
             msg: 'Login realizado.'
@@ -478,7 +481,8 @@ class MyProvider extends Component {
       createClient,
       showEditClient,
       deleteClient,
-      editClient
+      editClient,
+      showContrato
     } = this
     return ( <MyContext.Provider value = {
       {
@@ -503,7 +507,8 @@ class MyProvider extends Component {
         createClient,
         showEditClient,
         deleteClient,
-        editClient
+        editClient,
+        showContrato
       }
     } > {
       this.props.children

@@ -1,36 +1,9 @@
-import React, {useContext} from 'react';
-//import {Select,Link,List,ListItem,Flex,Box,Heading,Button,Stack,Input,Icon,useToast, SimpleGrid,Text,InputLeftAddon, InputGroup } from "@chakra-ui/core";
+import React, {useContext, useEffect} from 'react';
+import {List,ListItem,Flex,Heading,useToast, SimpleGrid,Text } from "@chakra-ui/core";
 import {MyContext} from '../../context'
-import {Page, Text, View, Document, StyleSheet} from "@react-pdf/renderer";
+//import {Page, Text, View, Document, StyleSheet} from "@react-pdf/renderer";
 
-const styles = StyleSheet.create({
-  page: {
-      backgroundColor: "#ffffff"
-  },
-  section: {
-      margin: 10,
-      padding: 10,
-      flexGrow: 1
-  }})
 
-export function PdfDocument(props) {
-  const context = useContext(MyContext)
-  console.log("pdf props", props.data);
-  return (
-      <Document>
-          <Page style={styles.page}>
-              {props.data ? props.data.map((index) => {
-                          return (  <View key={index}>fff</View>
-                            );
-                          })
-                      : ""}
-            </Page>
-        </Document>
-    );
-}
-
-//aqui empieza Israel
-/*
 export default function Clientes({history}) {  
     const context = useContext(MyContext)
     const toast = useToast()
@@ -110,6 +83,22 @@ export default function Clientes({history}) {
           }}
         </MyContext.Consumer>
       )
+}
+
+/*export function PdfDocument(props) {
+  const context = useContext(MyContext)
+  console.log("pdf props", props.data);
+  return (
+      <Document>
+          <Page style={styles.page}>
+              {props.data ? props.data.map((index) => {
+                          return (  <View key={index}>fff</View>
+                            );
+                          })
+                      : ""}
+            </Page>
+        </Document>
+    );
 }*/
 
 

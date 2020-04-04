@@ -68,6 +68,7 @@ class MyProvider extends Component {
       cp:""
     },
     perfil:null,
+    indxContrato:null,
     feed: false,
     isAdmin:false,
     contratoDetalle:null
@@ -170,6 +171,9 @@ class MyProvider extends Component {
     const nuevoPerfil=this.state.perfil
     nuevoPerfil.contratosDetalle[id].show=!this.state.perfil.contratosDetalle[id].show
     this.setState({perfil:nuevoPerfil})
+  }
+  setContratoDetalle=async (indx)=>{
+    await this.setState({indxContrato:indx})
   }
   handleLogout = async () => {
     await SERVICE.logOut()
@@ -482,7 +486,8 @@ class MyProvider extends Component {
       showEditClient,
       deleteClient,
       editClient,
-      showContrato
+      showContrato,
+      setContratoDetalle
     } = this
     return ( <MyContext.Provider value = {
       {
@@ -508,7 +513,8 @@ class MyProvider extends Component {
         showEditClient,
         deleteClient,
         editClient,
-        showContrato
+        showContrato,
+        setContratoDetalle
       }
     } > {
       this.props.children

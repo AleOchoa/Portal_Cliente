@@ -1,18 +1,21 @@
-import React, {useContext} from 'react';
+import React, {useContext,useEffect} from 'react';
 import {Link,Flex,Box,Heading,Button,Icon,Text,Collapse,IconButton } from "@chakra-ui/core";
 import {MyContext} from '../../context'
 import {MdPhoneIphone,MdAttachMoney} from "react-icons/md";
 import { FaUser} from 'react-icons/fa';
 
 export default function Contratos({history}) {  
-  const [show, setShow] = React.useState(false);
-  const go = path => history.push(path)
   const context = useContext(MyContext)
+  const go = async (path,indx) =>{
+    if (indx) {await context.setContratoDetalle(indx)}
+    history.push(path)
+  }
+  
   const {perfil}= context.state
   const handleToggle =  (id) => context.showContrato(id)  ;
-    /*useEffect(()=>{
+  useEffect(()=>{
       if (!context.state.isLogged) return history.push('/')
-    })*/
+    })
     
         
     return (
@@ -56,7 +59,7 @@ export default function Contratos({history}) {
                       <p>Saldo total al corte</p>
                       {perfil && perfil.resumen &&<small>Última fecha de corte {perfil.resumen.FechaCorte.substring(0,10)}</small>}
                     </Box>
-                    <Button onClick={() => go('/clientes')} leftIcon={MdAttachMoney} backgroundColor="#718096" variant="solid">Pagar</Button>
+                    <Button onClick={() => go('/clientes',null)} leftIcon={MdAttachMoney} backgroundColor="#718096" variant="solid">Pagar</Button>
                   </Box>
                 </Box>
 
@@ -75,7 +78,7 @@ export default function Contratos({history}) {
                             <p>Saldo total al corte</p>
                             {perfil && perfil.resumen &&<small>Última fecha de corte {contrato.FechaCorte.substring(0,10)}</small>}
                           </Box>
-                          <Button size="md" onClick={() => go('/clientes')} leftIcon={MdAttachMoney} backgroundColor="teal.300" variant="solid">Pagar</Button>
+                          <Button size="md" onClick={() => go('/clientes',id)} leftIcon={MdAttachMoney} backgroundColor="teal.300" variant="solid">Pagar</Button>
                         </Box>
                       </Box>
                       <Box height="135px" display="flex"  flexDirection="column" width="50vw" padding="15px" color="#718096" backgroundColor="#CBD5E0">
@@ -100,7 +103,7 @@ export default function Contratos({history}) {
                             <br/>
                             <Text fontSize="sm" >{contrato.FechaProxVenc}</Text>
                           </Box>
-                          <Link onClick={() => go('/detalleContrato')}>
+                          <Link onClick={() => go('/detalleContrato',id)}>
                             Detalle de movimientos <Icon name="search-2"/>
                           </Link>
                         </Box>
@@ -108,9 +111,6 @@ export default function Contratos({history}) {
 
                     </Collapse>
                     {contrato.show ? <Box height="14px" backgroundColor="#CBD5E0" width="50vw"><IconButton height="14px" size="sm" onClick={()=>handleToggle(id)} aria-label="Search database" icon="chevron-up" /></Box> : <Box height="14px" backgroundColor="#718096" width="50vw"><IconButton height="14px" size="sm" onClick={()=>handleToggle(id)} aria-label="Search database" icon="chevron-down"  backgroundColor="#718096"/></Box>}
-                    {/*<Button size="sm" onClick={handleToggle} mt="1rem">
-                      Show {show ? "Less" : "More"}
-                    </Button>*/}
                   </Box>
                 ))}
 

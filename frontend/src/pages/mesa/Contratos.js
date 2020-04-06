@@ -7,7 +7,7 @@ import { FaUser} from 'react-icons/fa';
 export default function Contratos({history}) {  
   const context = useContext(MyContext)
   const go = async (path,indx) =>{
-    if (indx) {await context.setContratoDetalle(indx)}
+    if (indx>=0) {await context.setContratoDetalle(indx)}
     history.push(path)
   }
   

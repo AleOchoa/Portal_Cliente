@@ -45,11 +45,12 @@ router.get('/perfil/:iduser',async (req,res)=>{
                                   ).catch(err=>console.log(err))
   const cliente=data.recordsets[0][0]
   let contratos=[]
-  let contratosDetalle={}
+  let contratosDetalle=[]
   let edoCuenta={}
   data.recordsets[1].forEach(contrato=>{
+    contrato.show=false
     contratos.push(contrato.NoContrato[0])
-    contratosDetalle[contrato.NoContrato[0]]=contrato
+    contratosDetalle.push(contrato)//contratosDetalle[contrato.NoContrato[0]]=contrato
     edoCuenta[contrato.NoContrato[0]]={}
   })
   data.recordsets[2].forEach(registro=>{
@@ -59,7 +60,13 @@ router.get('/perfil/:iduser',async (req,res)=>{
     edoCuenta[registro.NoContrato][registro.VnFechaCorte.toISOString().substring(0,7)]['AvisoVencimiento']=registro
   })
   data.recordsets[4].forEach(registro=>{
-    edoCuenta[registro.NoContrato][registro.FechaCorte.toISOString().substring(0,7)]['DetalleMovimientos']=registro
+    edoCuenta[registro.NoContrato][registro.FechaCorte.toISOString().substring(0,7)]['DetalleMovimientos']=[]
+  })
+  data.recordsets[4].forEach(registro=>{
+    edoCuenta[registro.NoContrato][registro.FechaCorte.toISOString().substring(0,7)]['DetalleMovimientos'].push(registro)
+  })
+  contratosDetalle.forEach(contrato=>{
+    contrato['DetalleMovimientos']=edoCuenta[contrato.NoContrato[0]][contrato.FechaCorte.toISOString().substring(0,7)]['DetalleMovimientos']
   })
   const resumen=data.recordsets[5][0]
   res.status(200).json({cliente,contratos,contratosDetalle,edoCuenta,resumen})

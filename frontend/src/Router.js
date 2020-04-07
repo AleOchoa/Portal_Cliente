@@ -7,7 +7,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Usuarios from './pages/admin/Usuarios'
 import Contratos from './pages/mesa/Contratos';
-import Clientes from './pages/mesa/Clientes'
+import Clientes from './pages/mesa/PdfVarios'
 import DetalleContrato from './pages/mesa/DetalleContrato'
 const Router = () => (
   <>

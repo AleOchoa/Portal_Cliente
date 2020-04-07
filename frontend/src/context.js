@@ -12,8 +12,6 @@ export const MyContext = createContext()
 
 class MyProvider extends Component {
   state = {
-    edita:false,
-    nuevo:false,
     formSignup: {
       Nombre: '',
       Paterno: '',
@@ -31,46 +29,16 @@ class MyProvider extends Component {
     },
     loggedUser: null,
     isLogged: false,
-    isOpen: false,
-    formUsuario: {
-      id:"",
-      name:"",
-      email:"",
-      rol:""
-    },
-    formContrato: {
-      id:"",
-      idcliente:"",
-      monto:0,
-      plazo:0,
-      tasa:0,
-      fechaInicio:"",
-      diaPago:0,
-      estatus:""
-    },
-    formCliente:{
-      id:"",
-      numCliente:"",
-      nombre:"",
-      apellidoPaterno:"",
-      apellidoMaterno:"",
-      rfc:"",
-      fechaNacimiento:"",
-      genero:"",
-      curp:"",
-      calle:"",
-      ext:"",
-      int:"",
-      colonia:"",
-      delegacion:"",
-      ciudad:"",
-      estado:"",
-      cp:""
-    },
     perfil:null,
-    feed: false,
+    indxContrato:null,
     isAdmin:false,
-    contratoDetalle:null
+    edoCuenta:{
+      contrato:'',
+      fecha:'',
+      show:false
+    },
+    fechasEdoCuenta:[],
+    contratoEdoCuenta:null
   }
 
   handleInput = (e, obj) => {
@@ -84,11 +52,8 @@ class MyProvider extends Component {
       Obj
     })
   }
-  handleChange=(e,obj)=> {
-    const {
-      name,
-      value
-    } = e.target
+  handleChange=(name,value,obj)=> {
+    console.log(obj,name,value)
     let Obj = this.state[obj]
     Obj[name] = value
     this.setState({
@@ -107,66 +72,28 @@ class MyProvider extends Component {
     */
   }
 
-  onClose = () => {
-    this.setState({
-      isOpen: false
-    })
+  
+  showContrato = (id)=>{
+    const nuevoPerfil=this.state.perfil
+    nuevoPerfil.contratosDetalle[id].show=!this.state.perfil.contratosDetalle[id].show
+    this.setState({perfil:nuevoPerfil})
   }
-  deleteUser = async (e, id) => {
-    await SERVICE.deleteUser(id)
-    const data = await SERVICE.feedUsers()
-    this.setState({
-      allUsers: data.users
-    })
+  setContratoDetalle=async (indx)=>{
+    await this.setState({indxContrato:indx})
   }
-  restorePassword = async (e, id) => {
-    await SERVICE.restorePassword(id)
-    const data = await SERVICE.feedUsers()
-    this.setState({
-      allUsers: data.users
-    })
-  }
-  changeStatus = async (e, id) => {
-    await SERVICE.changeStatus(id)
-    const data = await SERVICE.feedUsers()
-    this.setState({
-      allUsers: data.users
-    })
-  }
-  editUser = async (e, id) => {
-    e.preventDefault()
-    await SERVICE.editUser(id,this.state.formUsuario)
-    const data = await SERVICE.feedUsers()
-    const form= {
-      id:"",
-      name:"",
-      email:"",
-      rol:""
+  getFechasEdoCuenta=async (contrato)=>{
+    console.log('obtiene fechas de contrato')
+    let fechas=[]
+    for (let fecha in this.state.perfil.edoCuenta[contrato]) {
+      fechas.push(fecha)
     }
-    this.setState({
-      formUsuario:form,
-      edita: false,
-      allUsers: data.users
-    })
+    console.log(fechas)
+    await this.setState({fechasEdoCuenta:fechas})
   }
-  showEditUser = async(e,user) => {
-    const form={
-      id:user._id,
-      name:user.name,
-      email:user.email,
-      rol:user.rol
-    }
-    this.setState({
-      edita: true,
-      formUsuario:form
-    })
+  setEdoCuenta=async ()=>{
+    const {contrato,fecha}=this.state.edoCuenta
+    await this.setState({contratoEdoCuenta:this.state.perfil.edoCuenta[contrato][fecha]})
   }
-  showNuevo = async(e) => {
-    this.setState({
-      nuevo: true
-    })
-  }
-
   handleLogout = async () => {
     await SERVICE.logOut()
     this.props.history.push('/')
@@ -176,8 +103,7 @@ class MyProvider extends Component {
       isAdmin:false
     })
   }
-  //NoCliente,Nombre,Paterno,Materno,FechaNacimiento,Email,EmailConfirm,Password,PasswordConfirm
-  handleSignupSubmit = async e => {
+ handleSignupSubmit = async e => {
     e.preventDefault()
     const form = this.state.formSignup
     this.setState({
@@ -229,7 +155,6 @@ class MyProvider extends Component {
           if (data.cliente.IdPerfil===1) {this.setState({isAdmin:true})}
           const {data:userData}= await SERVICE.profile(data.cliente.IdCliente)
           this.setState({perfil:userData,feed:true})
-          console.log(this.state)
           return {
             user: data.cliente,
             msg: 'Login realizado.'
@@ -264,195 +189,6 @@ class MyProvider extends Component {
   }
 
 
-///Cliente
-  createClient=async e =>{
-    e.preventDefault()
-    const form=this.state.formCliente
-    this.setState({
-      formCliente:{
-        id:"",
-        nombre:"",
-        apellidoPaterno:"",
-        apellidoMaterno:"",
-        rfc:"",
-        fechaNacimiento:"",
-        numCliente:"",
-        genero:"",
-        curp:"",
-        calle:"",
-        ext:"",
-        int:"",
-        colonia:"",
-        delegacion:"",
-        ciudad:"",
-        estado:"",
-        cp:""
-      },
-      nuevo:false
-    })
-    return await SERVICE.createClient(form)
-      .then(async (data)=>{
-        const {clients}=await SERVICE.feedClients()
-        this.setState({allClients: clients})
-        return {
-          client: data.cliente,
-          msg: "Se ha agregado el cliente."
-        }
-      })
-      .catch(({
-        err
-      }) => {
-        return {
-          client: null,
-          msg: err
-        }
-      })
-    }
-    showEditClient= async(e,cliente) => {
-      const form={
-        id:cliente._id,
-        nombre:cliente.nombre,
-        apellidoPaterno:cliente.apellidoPaterno,
-        apellidoMaterno:cliente.apellidoMaterno,
-        rfc:cliente.rfc,
-        numCliente:cliente.numCliente,
-        genero:cliente.genero,
-        curp:cliente.curp,
-      }
-      this.setState({
-        edita: true,
-        formCliente:form
-      })
-    }
-    deleteClient = async (e, id) => {
-      await SERVICE.deleteClient(id)
-      const data = await SERVICE.feedClients()
-      this.setState({
-        allClients: data.clients
-      })
-    }
-    editClient = async (e, id) => {
-      e.preventDefault()
-      await SERVICE.editClient(id,this.state.formCliente)
-      const data = await SERVICE.feedClients()
-      const form= {
-        id:"",
-        numCliente:"",
-        nombre:"",
-        apellidoPaterno:"",
-        apellidoMaterno:"",
-        rfc:"",
-        fechaNacimiento:"",
-        genero:"",
-        curp:"",
-        calle:"",
-        ext:"",
-        int:"",
-        colonia:"",
-        delegacion:"",
-        ciudad:"",
-        estado:"",
-        cp:""
-      }
-      this.setState({
-        formCliente:form,
-        edita: false,
-        allClients: data.clients
-      })
-    }
-
-///Contrato
-  createContract = async e=>{
-    e.preventDefault()
-    const form=this.state.formContrato
-    this.setState({
-      formContrato: {
-        idcliente:"",
-        monto:"",
-        plazo:"",
-        tasa:"",
-        fechaInicio:"",
-        diaPago:"",
-        estatus:""
-      },
-      nuevo:false
-    })
-    return await SERVICE.createContract(form)
-      .then(async (
-        data
-      ) => {
-        const {
-          contracts
-        } = await SERVICE.feedContracts()
-        this.setState({
-          allContracts: contracts
-        })
-        const contrato=data.contrato.data.contrato
-        return {
-          contract: contrato,
-          msg: "Se ha generado el contrato."
-        }
-      })
-      .catch(({
-        err
-      }) => {
-        return {
-          contract: null,
-          msg: "No se pudo crear el contrato."
-        }
-      })
-  }
-  showEditContract = async(e,contract) => {
-    const form={
-      id:contract._id,
-      idcliente:"",
-      monto:contract.monto,
-      plazo:contract.plazo,
-      tasa:contract.tasa,
-      fechaInicio:"",
-      diaPago:contract.diaPago,
-      estatus:contract.estatus
-    }
-    this.setState({
-      edita: true,
-      formContrato:form
-    })
-  }
-  editContract = async (e, id) => {
-    e.preventDefault()
-    await SERVICE.editContract(id,this.state.formContrato)
-    const data = await SERVICE.feedContracts()
-    const form= {
-      id:"",
-      idcliente:"",
-      monto:"",
-      plazo:"",
-      tasa:"",
-      cliente:"",
-      fechaInicio:"",
-      diaPago:"",
-      estatus:""
-    }
-    this.setState({
-      formContrato:form,
-      edita: false,
-      allContracts: data.contracts
-    })
-  }
-  deleteContract = async (e, id) => {
-    await SERVICE.deleteContract(id)
-    const data = await SERVICE.feedContracts()
-    this.setState({
-      allContracts: data.contracts
-    })
-  }
-  showDetailContract= (e,contract)=>{
-    const fechaCorta=contract.fechaPrimerPago.substring(0,10)
-    this.setState({contratoDetalle:{...contract,fechaPrimerPagoCorto:fechaCorta}})
-    console.log(contract)
-
-    this.props.history.push('/detalleContrato')
-  }
   
 
   render() {
@@ -462,23 +198,11 @@ class MyProvider extends Component {
       handleSignupSubmit,
       handleLoginSubmit,
       handleLogout,
-      onClose,
-      deleteUser,
-      restorePassword,
-      changeStatus,
-      editUser,
-      showEditUser,
       handleChange,
-      showNuevo,
-      createContract,
-      showEditContract,
-      deleteContract,
-      editContract,
-      showDetailContract,
-      createClient,
-      showEditClient,
-      deleteClient,
-      editClient
+      showContrato,
+      setContratoDetalle,
+      setEdoCuenta,
+      getFechasEdoCuenta
     } = this
     return ( <MyContext.Provider value = {
       {
@@ -487,23 +211,11 @@ class MyProvider extends Component {
         handleSignupSubmit,
         handleLoginSubmit,
         handleLogout,
-        onClose,
-        deleteUser,
-        restorePassword,
-        changeStatus,
-        editUser,
-        showEditUser,
         handleChange,
-        showNuevo,
-        createContract,
-        showEditContract,
-        deleteContract,
-        editContract,
-        showDetailContract,
-        createClient,
-        showEditClient,
-        deleteClient,
-        editClient
+        showContrato,
+        setContratoDetalle,
+        setEdoCuenta,
+        getFechasEdoCuenta
       }
     } > {
       this.props.children

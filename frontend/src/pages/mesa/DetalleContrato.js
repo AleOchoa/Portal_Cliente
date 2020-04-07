@@ -14,7 +14,7 @@ export default function DetalleContrato({history}) {
           {context => {
             return (
               <Flex wrap="wrap" justifyContent="center">
-                {feed && <Box display="flex" flexDir="column"  h="80%" justifyContent="center" minWidth="400px"  maxWidth="9500px" p={4} color="white">
+               {/* {feed && <Box display="flex" flexDir="column"  h="80%" justifyContent="center" minWidth="400px"  maxWidth="9500px" p={4} color="white">
                   <Heading as="h3" size="md" color="teal.700">Detalle Contrato</Heading>
                   <List>
                     <ListItem
@@ -77,6 +77,7 @@ export default function DetalleContrato({history}) {
                     ))}
                   </List>
                 </Box>}  
+        */}
               </Flex>
             );
           }}

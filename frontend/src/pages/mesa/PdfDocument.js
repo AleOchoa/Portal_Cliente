@@ -13,14 +13,58 @@ import {
 
 const styles = StyleSheet.create({
     page: {
+        flexDirection: 'row',
         backgroundColor: "#ffffff"
     },
+    body: {
+        paddingTop: 35,
+        paddingBottom: 65,
+        paddingHorizontal: 35,
+      },
+      title: {
+        fontSize: 24,
+        textAlign: 'center',
+        fontFamily: 'Oswald'
+      },
+      image: {
+        marginVertical: 1,
+        marginHorizontal: 200,
+        height: 100,  
+
+      },
+      pageNumber: {
+        position: 'absolute',
+        fontSize: 12,
+        bottom: 30,
+        left: 0,
+        right: 0,
+        textAlign: 'center',
+        color: 'grey',
+      },
+      text: {
+        margin: 12,
+        fontSize: 14,
+        textAlign: 'justify',
+        fontFamily: 'Times-Roman'
+      },
+      subtitle: {
+        fontSize: 18,
+        margin: 12,
+        fontFamily: 'Oswald'
+      },
+    header: {
+      fontSize: 12,
+      marginBottom: 20,
+      textAlign: 'center',
+      color: 'grey',
+    },
+
     section: {
         margin: 10,
         padding: 10,
         flexGrow: 1
     },
-    movieContainer: {
+    contratoContainer: {
         backgroundColor: "#f6f6f5",
         display: "flex",
         flexDirection: "row",
@@ -38,18 +82,6 @@ const styles = StyleSheet.create({
         fontSize: 10
     },
 
-    image: {
-        height: 200,
-        width: 150
-    },
-    subtitle: {
-        display: "flex",
-        justifyContent: "space-between",
-        flexDirection: "row",
-        width: 150,
-        alignItems: "center",
-        marginBottom: 12
-    },
     vote: {
         display: "flex",
         flexDirection: "row"
@@ -94,14 +126,19 @@ export function PdfDocument(props) {
     console.log("pdf props", props.data);
     return (
         <Document>
-            <Page style={styles.page}>
-                {contrato? 
-                      <View style={styles.movieContainer}>
-                        <Text style={styles.movieTitle}>No.Contrato{contrato.NoContrato}</Text>
-                        <Text>Fecha Corte: {contrato.FechaCorte} </Text>
-                        <Text>Saldo al corte: {contrato.SaldoAlCorte}</Text> 
+            <Page  size="A4" style={styles.page}>
+            {contrato? 
+                        <View style={styles.body}>
+                          <Text style={styles.header}> Estado de cuenta {contrato.NoContrato}</Text>
+                        <Text style={styles.text}>No.Contrato: {contrato.NoContrato}</Text>
+                        <Text style={styles.text}>Fecha Corte: {contrato.FechaCorte} </Text>
+                        <Text style={styles.text}>Saldo al corte: {contrato.SaldoAlCorte}</Text> 
+                        <Image style={styles.image} src="/logo.png"/>
                     </View>
             : ""}
+                  <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
+        `${pageNumber} / ${totalPages}`
+      )} fixed />
             </Page>
         </Document>
     );

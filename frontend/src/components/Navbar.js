@@ -35,7 +35,7 @@ function Navbar({ history }) {
               <MenuButton
                 as={IconButton}
                 variant="outline"
-                variantColor="whity"
+                color="color4"
                 aria-label="Menu"
                 size="lg"
                 icon={TiThMenu}

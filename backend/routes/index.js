@@ -66,7 +66,7 @@ router.get('/perfil/:iduser',async (req,res)=>{
     edoCuenta[registro.NoContrato][registro.FechaCorte.toISOString().substring(0,7)]['DetalleMovimientos'].push(registro)
   })
   contratosDetalle.forEach(contrato=>{
-    contrato['DetalleMovimientos']=edoCuenta[contrato.NoContrato[0]][contrato.FechaCorte.toISOString().substring(0,7)]['DetalleMovimientos']
+    if (contrato.FechaCorte) contrato['DetalleMovimientos']=edoCuenta[contrato.NoContrato[0]][contrato.FechaCorte.toISOString().substring(0,7)]['DetalleMovimientos']
   })
   const resumen=data.recordsets[5][0]
   res.status(200).json({cliente,contratos,contratosDetalle,edoCuenta,resumen})

@@ -37,8 +37,7 @@ class MyProvider extends Component {
       fecha:'',
       show:false
     },
-    fechasEdoCuenta:[],
-    contratoEdoCuenta:null
+    fechasEdoCuenta:[]
   }
 
   handleInput = (e, obj) => {
@@ -53,7 +52,6 @@ class MyProvider extends Component {
     })
   }
   handleChange=(name,value,obj)=> {
-    console.log(obj,name,value)
     let Obj = this.state[obj]
     Obj[name] = value
     this.setState({
@@ -82,18 +80,13 @@ class MyProvider extends Component {
     await this.setState({indxContrato:indx})
   }
   getFechasEdoCuenta=async (contrato)=>{
-    console.log('obtiene fechas de contrato')
     let fechas=[]
     for (let fecha in this.state.perfil.edoCuenta[contrato]) {
       fechas.push(fecha)
     }
-    console.log(fechas)
     await this.setState({fechasEdoCuenta:fechas})
   }
-  setEdoCuenta=async ()=>{
-    const {contrato,fecha}=this.state.edoCuenta
-    await this.setState({contratoEdoCuenta:this.state.perfil.edoCuenta[contrato][fecha]})
-  }
+
   handleLogout = async () => {
     await SERVICE.logOut()
     this.props.history.push('/')
@@ -201,7 +194,6 @@ class MyProvider extends Component {
       handleChange,
       showContrato,
       setContratoDetalle,
-      setEdoCuenta,
       getFechasEdoCuenta
     } = this
     return ( <MyContext.Provider value = {
@@ -214,7 +206,6 @@ class MyProvider extends Component {
         handleChange,
         showContrato,
         setContratoDetalle,
-        setEdoCuenta,
         getFechasEdoCuenta
       }
     } > {

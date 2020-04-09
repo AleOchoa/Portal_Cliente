@@ -97,14 +97,14 @@ export function PdfDocument(props) {
             {contrato? 
                          <View style={styles.body}>
                           <Text style={styles.header}> Estado de cuenta {contrato.NoContrato}</Text>
+                          <View style={styles.container}>
+                        <View style={styles.leftColumn}>
                         <Text style={styles.text}>No.Contrato: {contrato.NoContrato}</Text>
                         <Text style={styles.text}>Fecha Corte: {contrato.FechaCorte} </Text>
                         <Text style={styles.text}>Saldo al corte: {contrato.SaldoAlCorte}</Text> 
                         <Image style={styles.image} src="/logo.png"/>
                         </View>
-                    <View style={styles.container}>
-                    <View style={styles.leftColumn}>
-                      <Text>{contrato.SaldoAlCorte}</Text>
+                        <Text>{contrato.SaldoAlCorte}</Text>
                     </View>
                     <View style={styles.rightColumn}>
                       <Text>This one does not wrap well testing the wrap features, I see some words getting cut off</Text>

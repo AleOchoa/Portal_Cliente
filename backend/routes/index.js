@@ -26,6 +26,7 @@ router.get('/', (req, res) => {
 });
 router.get('/perfil/:iduser',async (req,res)=>{
   const {iduser}=req.params
+  const numEmpresa=1
   const request=new sql.Request();
   const data=await request.query(`select * from Clientes where idcliente=${iduser};
                                 SELECT * FROM Contrato C LEFT OUTER JOIN 
@@ -41,36 +42,74 @@ router.get('/perfil/:iduser',async (req,res)=>{
                                       (select IdContrato,Max(FechaCorte) FechaCorte From SaldosEdoCuenta group by IdContrato) B
                                       on A.IdContrato=B.IdContrato and A.FechaCorte=B.FechaCorte 
                                     where A.IdContrato IN (SELECT IdContrato FROM Contrato WHERE IdCliente=${iduser})
-                                    group by NoCliente`
+                                    group by NoCliente;
+                                    SELECT * FROM Empresa where IdEmpresa=${numEmpresa};
+                                    SELECT * FROM LeyendasEdoCuenta where IdEmpresa=${numEmpresa}`
                                   ).catch(err=>console.log(err))
+  //Se llenan cliente, empresa y leyenda
   const cliente=data.recordsets[0][0]
+  const empresa=data.recordsets[0][5]
+  const leyendas=data.recordsets[0][6]
+  
+  
   let contratos=[]
   let contratosDetalle=[]
   let edoCuenta={}
+  
+  //ingresa los contratos y el detalle de los contratos
   data.recordsets[1].forEach(contrato=>{
+    contrato=formateaDatos(contrato)
     contrato.show=false
     contratos.push(contrato.NoContrato[0])
-    contratosDetalle.push(contrato)//contratosDetalle[contrato.NoContrato[0]]=contrato
+    contratosDetalle.push(contrato)
     edoCuenta[contrato.NoContrato[0]]={}
   })
+  //se agregan los estados de cuenta
   data.recordsets[2].forEach(registro=>{
-    edoCuenta[registro.NoContrato][registro.FechaCorte.toISOString().substring(0,7)]=registro
+    registro=formateaDatos(registro)
+    edoCuenta[registro.NoContrato][registro.FechaCorte.substring(0,7)]=registro
+  })
+  //agrega la información de AvisoVencimiento
+  data.recordsets[3].forEach(registro=>{
+    registro=formateaDatos(registro)
+    edoCuenta[registro.NoContrato][registro.VnFechaCorte.substring(0,7)]['AvisoVencimiento']=[]
   })
   data.recordsets[3].forEach(registro=>{
-    edoCuenta[registro.NoContrato][registro.VnFechaCorte.toISOString().substring(0,7)]['AvisoVencimiento']=registro
+    edoCuenta[registro.NoContrato][registro.VnFechaCorte.substring(0,7)]['AvisoVencimiento'].push(registro)
+  })
+  //agrega la información de DetalleMovimientos
+  data.recordsets[4].forEach(registro=>{
+    registro=formateaDatos(registro)
+    edoCuenta[registro.NoContrato][registro.FechaCorte.substring(0,7)]['DetalleMovimientos']=[]
   })
   data.recordsets[4].forEach(registro=>{
-    edoCuenta[registro.NoContrato][registro.FechaCorte.toISOString().substring(0,7)]['DetalleMovimientos']=[]
+    edoCuenta[registro.NoContrato][registro.FechaCorte.substring(0,7)]['DetalleMovimientos'].push(registro)
   })
-  data.recordsets[4].forEach(registro=>{
-    edoCuenta[registro.NoContrato][registro.FechaCorte.toISOString().substring(0,7)]['DetalleMovimientos'].push(registro)
-  })
+  //agrega la información de detalle movimientos a contratosDetalle
   contratosDetalle.forEach(contrato=>{
-    if (contrato.FechaCorte) contrato['DetalleMovimientos']=edoCuenta[contrato.NoContrato[0]][contrato.FechaCorte.toISOString().substring(0,7)]['DetalleMovimientos']
+    if (contrato.FechaCorte) contrato['DetalleMovimientos']=edoCuenta[contrato.NoContrato[0]][contrato.FechaCorte.substring(0,7)]['DetalleMovimientos']
   })
-  const resumen=data.recordsets[5][0]
-  res.status(200).json({cliente,contratos,contratosDetalle,edoCuenta,resumen})
+ 
+  //agrega el resumen
+  const resumen=formateaDatos(data.recordsets[5][0])
+  res.status(200).json({cliente,contratos,contratosDetalle,edoCuenta,resumen,empresa,leyendas})
 })
+
+const formateaDatos = (obj)=>{
+  let cantidades=['MontoFinanciado','SaldoInsoluto','SaldoAlCorte','SaldoAlCorteAnterior','PagosDelPeriodo','CargosDelPeriodo','CapitalPeriodo','InteresPeriodo','IVAPeriodo','ComisionesPeriodo','OtrosCargosPeriodo','SaldoPromedio','MontoProxVenc','CapitalXPagar','InteresXPagar','OtrosXPagar','ComisionesXPagar','IvaXPagar','TotalAPagar','Pago','SaldoAFavor','SaldoVencido','VnBaseCalculo','VnCapital','VnIvaCapital','VnInteres','VnIvaInteres','VnImporteTotal','MvImporteCargo','MvImporteAbono','MvCapital','MvInteres','MvIva','MvOtros','MvTotalMovimiento']
+  for (prop in obj){
+
+    if (typeof obj[prop]==='number' && cantidades.includes(prop)) {
+      obj[`${prop}1`]=obj[prop].toLocaleString('en-IN', { style: 'currency', currency: 'USD' }) //si en queremos $MX213 hay que poner currency:'MXN'
+      obj[prop]= obj[prop].toLocaleString('en-IN')
+    }
+    if (prop.startsWith('Fecha') || prop.startsWith('VnFecha') || prop.startsWith('MvFecha')){
+      obj[prop]=obj[prop].toISOString().substring(0,10)
+    }
+     
+  }
+  return obj
+}
 
 router.post('/signup',async (req,res)=>{
   const {NoCliente,Nombre,Paterno,Materno,FechaNacimiento,Email,EmailConfirm,Password,PasswordConfirm}=req.body 

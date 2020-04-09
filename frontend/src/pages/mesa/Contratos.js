@@ -55,9 +55,9 @@ export default function Contratos({history}) {
                   <Heading size="lg" fontWeight="100" width="20vw">Resumen de cuentas</Heading>
                   <Box display="flex" alignItems="center">
                     <Box>
-                      {perfil && perfil.resumen && <Heading>{perfil.resumen.SaldoAlCorte}</Heading>}
+                      {perfil && perfil.resumen && <Heading>{perfil.resumen.SaldoAlCorte1}</Heading>}
                       <p>Saldo total al corte</p>
-                      {perfil && perfil.resumen &&<small>Última fecha de corte {perfil.resumen.FechaCorte.substring(0,10)}</small>}
+                      {perfil && perfil.resumen &&<Text fontSize="xs">Última fecha de corte {perfil.resumen.FechaCorte}</Text>}
                     </Box>
                     <Button onClick={() => go('/clientes',null)} leftIcon={MdAttachMoney} backgroundColor="color1" variant="solid">Pagar</Button>
                   </Box>
@@ -74,9 +74,9 @@ export default function Contratos({history}) {
                         </Box>
                         <Box display="flex" alignItems="center">
                           <Box>
-                            {perfil && perfil.resumen && <Heading>{contrato.SaldoAlCorte}</Heading>}
+                            {perfil && perfil.resumen && <Heading>{contrato.SaldoAlCorte1}</Heading>}
                             <p>Saldo total al corte</p>
-                            {perfil && perfil.resumen &&<small>Última fecha de corte {contrato.FechaCorte.substring(0,10)}</small>}
+                            {perfil && perfil.resumen &&<Text fontSize="xs">Última fecha de corte {contrato.FechaCorte}</Text>}
                           </Box>
                           <Button size="md" onClick={() => go('/clientes',id)} leftIcon={MdAttachMoney} backgroundColor="color3" variant="solid">Pagar</Button>
                         </Box>
@@ -86,17 +86,17 @@ export default function Contratos({history}) {
                           <Box width="15%">
                             <Text fontSize="sm" fontWeight="bold">Saldo insoluto</Text>
                             <br/>
-                            <Text fontSize="sm" >{contrato.SaldoInsoluto}</Text>
+                            <Text fontSize="sm" >{contrato.SaldoInsoluto1}</Text>
                           </Box>
                           <Box width="15%">
                             <Text fontSize="sm" fontWeight="bold">Saldo vencido</Text>
                             <br/>
-                            <Text fontSize="sm" >{contrato.TotalAPagar}</Text>
+                            <Text fontSize="sm" >{contrato.TotalAPagar1}</Text>
                           </Box>
                           <Box width="15%">
                             <Text fontSize="sm" fontWeight="bold">Prox. vencimiento</Text>
                             <br/>
-                            <Text fontSize="sm" >{contrato.MontoProxVenc}</Text>
+                            <Text fontSize="sm" >{contrato.MontoProxVenc1}</Text>
                           </Box>
                           <Box width="15%">
                             <Text fontSize="sm" fontWeight="bold">Fecha de pago</Text>

@@ -34,20 +34,22 @@ export default function DetalleContrato({history}) {
                     </Box>
                     <Divider borderColor="color3" borderWidth="2px" />
                     <br/>
-                    <Box>
-                      <label htmlFor="contratos">No. Contrato</label>
-                      <Select maxWidth="250px" id="contratos" value={context.state.indxContrato} name="contrato" className="select"  onChange={(e)=>handleInput(e)} >
-                        <option value="" disabled >
-                          Selecciona un contrato
-                        </option>
-                        {perfil.contratosDetalle.map((contrato, index) => {
-                          return (
-                            <option key={index} value={index}>
-                              {contrato.NoContrato[0]}
-                            </option>
-                          );
-                        })}
-                      </Select>
+                    <Box display="flex" alignItems="center" justifyContent="space-between">
+                      <Box display="flex" alignItems="center">
+                        <label htmlFor="contratos">No. Contrato</label>
+                        <Select textAlign="center" maxWidth="200px" id="contratos" value={context.state.indxContrato} name="contrato" className="select"  onChange={(e)=>handleInput(e)} >
+                          <option value="" disabled >
+                            Selecciona un contrato
+                          </option>
+                          {perfil.contratosDetalle.map((contrato, index) => {
+                            return (
+                              <option key={index} value={index}>
+                                {contrato.NoContrato[0]}
+                              </option>
+                            );
+                          })}
+                        </Select>
+                      </Box>
                       <Box>Fecha: <Text as="span" color="color3">{contrato.FechaCorte} </Text></Box>
                     </Box>
                     <br/>

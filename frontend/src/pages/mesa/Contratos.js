@@ -55,7 +55,7 @@ export default function Contratos({history}) {
                   <Heading size="lg" fontWeight="100" width="20vw">Resumen de cuentas</Heading>
                   <Box display="flex" alignItems="center">
                     <Box>
-                      {perfil && perfil.resumen && <Heading>$ {perfil.resumen.SaldoAlCorte}</Heading>}
+                      {perfil && perfil.resumen && <Heading>{perfil.resumen.SaldoAlCorte}</Heading>}
                       <p>Saldo total al corte</p>
                       {perfil && perfil.resumen &&<small>Última fecha de corte {perfil.resumen.FechaCorte.substring(0,10)}</small>}
                     </Box>
@@ -74,7 +74,7 @@ export default function Contratos({history}) {
                         </Box>
                         <Box display="flex" alignItems="center">
                           <Box>
-                            {perfil && perfil.resumen && <Heading>$ {contrato.SaldoAlCorte}</Heading>}
+                            {perfil && perfil.resumen && <Heading>{contrato.SaldoAlCorte}</Heading>}
                             <p>Saldo total al corte</p>
                             {perfil && perfil.resumen &&<small>Última fecha de corte {contrato.FechaCorte.substring(0,10)}</small>}
                           </Box>
@@ -86,17 +86,17 @@ export default function Contratos({history}) {
                           <Box width="15%">
                             <Text fontSize="sm" fontWeight="bold">Saldo insoluto</Text>
                             <br/>
-                            <Text fontSize="sm" >${contrato.SaldoInsoluto}</Text>
+                            <Text fontSize="sm" >{contrato.SaldoInsoluto}</Text>
                           </Box>
                           <Box width="15%">
                             <Text fontSize="sm" fontWeight="bold">Saldo vencido</Text>
                             <br/>
-                            <Text fontSize="sm" >${contrato.TotalAPagar}</Text>
+                            <Text fontSize="sm" >{contrato.TotalAPagar}</Text>
                           </Box>
                           <Box width="15%">
                             <Text fontSize="sm" fontWeight="bold">Prox. vencimiento</Text>
                             <br/>
-                            <Text fontSize="sm" >${contrato.MontoProxVenc}</Text>
+                            <Text fontSize="sm" >{contrato.MontoProxVenc}</Text>
                           </Box>
                           <Box width="15%">
                             <Text fontSize="sm" fontWeight="bold">Fecha de pago</Text>

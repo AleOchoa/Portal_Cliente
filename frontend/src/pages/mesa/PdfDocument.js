@@ -12,6 +12,12 @@ import {
 
 
 const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        '@media max-width: 400': {
+          flexDirection: 'column',
+        },
+      },
     page: {
         flexDirection: 'row',
         backgroundColor: "#ffffff"
@@ -20,7 +26,7 @@ const styles = StyleSheet.create({
         paddingTop: 35,
         paddingBottom: 65,
         paddingHorizontal: 35,
-      },
+    },
       title: {
         fontSize: 24,
         textAlign: 'center',
@@ -30,7 +36,6 @@ const styles = StyleSheet.create({
         marginVertical: 1,
         marginHorizontal: 200,
         height: 100,  
-
       },
       pageNumber: {
         position: 'absolute',
@@ -52,73 +57,35 @@ const styles = StyleSheet.create({
         margin: 12,
         fontFamily: 'Oswald'
       },
-    header: {
+        header: {
       fontSize: 12,
       marginBottom: 20,
       textAlign: 'center',
       color: 'grey',
     },
+    rightColumn: {
+      flexDirection: 'column',
+      flexGrow: 1,
+      flexShrink: 1,
+      marginLeft: 10,//alto
+      marginRight: 50,
+      marginTop: 30,
+      borderStyle: 'solid',
+          backgroundColor: 'red',
+      color: '#fff',
+      border: 1,
+      borderWidth:2,
+      //texto superior
+      },
+      leftColumn: {
+        flexDirection: 'column',
+        width: 170,
+        marginLeft: 30,
+        marginRight: 15,
+        marginTop: 20,
+      },
+      
 
-    section: {
-        margin: 10,
-        padding: 10,
-        flexGrow: 1
-    },
-    contratoContainer: {
-        backgroundColor: "#f6f6f5",
-        display: "flex",
-        flexDirection: "row",
-        padding: 5
-    },
-    movieDetails: {
-        display: "flex",
-        marginLeft: 5
-    },
-    movieTitle: {
-        fontSize: 15,
-        marginBottom: 10
-    },
-    movieOverview: {
-        fontSize: 10
-    },
-
-    vote: {
-        display: "flex",
-        flexDirection: "row"
-    },
-    rating: {
-        height: 10,
-        width: 10
-    },
-    vote_text: {
-        fontSize: 10
-    },
-    vote_pop: {
-        fontSize: 10,
-        padding: 2,
-        backgroundColor: "#61C74F",
-        color: "#fff"
-    },
-    vote_pop_text: {
-        fontSize: 10,
-        marginLeft: 4
-    },
-    overviewContainer: {
-        minHeight: 110
-    },
-    detailsFooter: {
-        display: "flex",
-        flexDirection: "row"
-    },
-    lang: {
-        fontSize: 8,
-        fontWeight: 700
-    },
-    vote_average: {
-        fontSize: 8,
-        marginLeft: 4,
-        fontWeight: "bold"
-    }
 });
 
 export function PdfDocument(props) {
@@ -128,13 +95,23 @@ export function PdfDocument(props) {
         <Document>
             <Page  size="A4" style={styles.page}>
             {contrato? 
-                        <View style={styles.body}>
+                         <View style={styles.body}>
                           <Text style={styles.header}> Estado de cuenta {contrato.NoContrato}</Text>
                         <Text style={styles.text}>No.Contrato: {contrato.NoContrato}</Text>
                         <Text style={styles.text}>Fecha Corte: {contrato.FechaCorte} </Text>
                         <Text style={styles.text}>Saldo al corte: {contrato.SaldoAlCorte}</Text> 
                         <Image style={styles.image} src="/logo.png"/>
+                        </View>
+                    <View style={styles.container}>
+                    <View style={styles.leftColumn}>
+                      <Text>{contrato.SaldoAlCorte}</Text>
                     </View>
+                    <View style={styles.rightColumn}>
+                      <Text>This one does not wrap well testing the wrap features, I see some words getting cut off</Text>
+                    </View>
+                  </View>
+                  
+               
             : ""}
                   <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
         `${pageNumber} / ${totalPages}`

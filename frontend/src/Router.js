@@ -15,7 +15,7 @@ const Router = () => (
   <Box marginTop="10vh"/>
     <Switch>
       <Route exact path="/" component={Login} />
-      <Route exact path="/singup" component={Signup} />
+      <Route exact path="/crearCuenta" component={Signup} />
       <Route exact path="/usuarios" component={Usuarios} />
       <Route exact path="/contratos" component={Contratos} />
       <Route exact path="/clientes" component={Clientes}/>

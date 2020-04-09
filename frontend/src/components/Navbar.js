@@ -27,7 +27,7 @@ function Navbar({ history }) {
             p={8}
             align="center"
             justify="space-between"
-            backgroundColor="teal.300"
+            backgroundColor="color3"
           >
             <Image h="9vh"  src="/logo_blanco.webp" />
             {context.state.isLogged && (

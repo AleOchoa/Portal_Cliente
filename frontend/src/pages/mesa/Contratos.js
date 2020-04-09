@@ -103,10 +103,10 @@ export default function Contratos({history}) {
                             <br/>
                             <Text fontSize="sm" >{contrato.FechaProxVenc}</Text>
                           </Box>
-                          <Link onClick={() => go('/detalleContrato',id)}>
-                            Detalle de movimientos <Icon name="search-2"/>
-                          </Link>
                         </Box>
+                        <Link marginLeft="auto" onClick={() => go('/detalleContrato',id)}>
+                            Detalle de movimientos <Icon name="search-2"/>
+                        </Link>
                       </Box>
 
                     </Collapse>

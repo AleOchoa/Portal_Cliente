@@ -14,10 +14,10 @@ export default function DetalleContrato({history}) {
       await context.setContratoDetalle(e.target.value)
     }
     let contrato=null
+    let total=null
     if (context.state.perfil) {contrato=context.state.perfil.contratosDetalle[context.state.indxContrato]}
     
     const go = path => history.push(path)
-
     return (
         <MyContext.Consumer>
           {context => {
@@ -36,7 +36,7 @@ export default function DetalleContrato({history}) {
                     <br/>
                     <Box display="flex" alignItems="center" justifyContent="space-between">
                       <Box display="flex" alignItems="center">
-                        <label htmlFor="contratos">No. Contrato</label>
+                        <label htmlFor="contratos">No. Contrato  </label>
                         <Select textAlign="center" maxWidth="200px" id="contratos" value={context.state.indxContrato} name="contrato" className="select"  onChange={(e)=>handleInput(e)} >
                           <option value="" disabled >
                             Selecciona un contrato
@@ -54,28 +54,28 @@ export default function DetalleContrato({history}) {
                     </Box>
                     <br/>
                     <Box display="flex" textAlign="left" justifyContent="space-between">
-                        <Box width="50%">
-                          <Box><Text as="span" fontWeight="bold">Fecha de apertura</Text> : {contrato.FechaApertura} </Box>
-                          <Box><Text as="span" fontWeight="bold">Fecha de término</Text> : {contrato.FechaTermino} </Box>
-                          <Box><Text as="span" fontWeight="bold">Monto del crédito</Text> : {contrato.MontoFinanciado} </Box>
-                          <Box><Text as="span" fontWeight="bold">Tasa interés anual</Text> : {contrato.Tasa[0]} % </Box>
-                          <Box><Text as="span" fontWeight="bold">Fecha último corte</Text> : {contrato.FechaCorte} </Box>
+                        <Box width="45%">
+                          <Box display="flex" justifyContent="space-between" ><Text as="span" fontWeight="bold">Fecha de apertura:</Text>  {contrato.FechaApertura} </Box>
+                          <Box display="flex" justifyContent="space-between" ><Text as="span" fontWeight="bold">Fecha de término:</Text>  {contrato.FechaTermino} </Box>
+                          <Box display="flex" justifyContent="space-between" ><Text as="span" fontWeight="bold">Monto del crédito:</Text>  {contrato.MontoFinanciado} </Box>
+                          <Box display="flex" justifyContent="space-between" ><Text as="span" fontWeight="bold">Tasa interés anual:</Text>  {contrato.Tasa[0]} % </Box>
+                          <Box display="flex" justifyContent="space-between" ><Text as="span" fontWeight="bold">Fecha último corte:</Text>  {contrato.FechaCorte} </Box>
                         </Box>
-                        <Box width="50%">
-                          <Box><Text as="span" fontWeight="bold">Saldo insoluto</Text> : {contrato.SaldoInsoluto} </Box>
-                          <Box><Text as="span" fontWeight="bold">Saldo a favor</Text> : {contrato.SaldoAFavor} </Box>
-                          <Box><Text as="span" fontWeight="bold">Saldo Total</Text> : {contrato.TotalAPagar} </Box>
-                          <Box><Text as="span" fontWeight="bold">Saldo vencido</Text> : {contrato.SaldoVencido} </Box>
-                          <Box><Text as="span" fontWeight="bold">Intereses a la fecha</Text> : {contrato.InteresesXPagar} </Box>
+                        <Box width="45%">
+                          <Box display="flex" justifyContent="space-between"><Text as="span" fontWeight="bold">Saldo insoluto:</Text>  {contrato.SaldoInsoluto} </Box>
+                          <Box display="flex" justifyContent="space-between"><Text as="span" fontWeight="bold">Saldo a favor:</Text>  {contrato.SaldoAFavor} </Box>
+                          <Box display="flex" justifyContent="space-between"><Text as="span" fontWeight="bold">Saldo vencido:</Text>  {contrato.SaldoVencido} </Box>
+                          <Box display="flex" justifyContent="space-between"><Text as="span" fontWeight="bold">Intereses a la fecha:</Text>  {contrato.InteresesXPagar} </Box>
+                          <Box display="flex" justifyContent="space-between"><Text as="span" fontWeight="bold">Saldo total:</Text>  {contrato.SaldoAlCorte} </Box>
                         </Box>
                     </Box>
                     <List>
                       <ListItem>
                         <Divider borderColor="color1"  borderWidth="2px"/>
-                        <SimpleGrid columns={5} spacing={10}>
+                        <SimpleGrid color="color3" columns={5} spacing={10}>
                             <Text>Fecha</Text>
-                            <Text gridColumn="2/4">Descripción</Text>
-                            <Text>Cargo</Text>
+                            <Text gridColumn="2/5">Descripción</Text>
+                            <Text>Importe</Text>
                         </SimpleGrid>
                         <Divider borderColor="color1" borderWidth="2px" />
                       </ListItem>
@@ -85,7 +85,7 @@ export default function DetalleContrato({history}) {
                             <ListItem key={indx}>
                             <SimpleGrid columns={5} spacing={10}>
                               <Text>{movimiento.MvFechavalor}</Text>
-                              <Text gridColumn="2/4">{movimiento.MvDescripcion}</Text>
+                              <Text gridColumn="2/5">{movimiento.MvDescripcion}</Text>
                               <Text>{movimiento.MvTotalMovimiento}</Text>
                             </SimpleGrid>
                           </ListItem> 
@@ -94,7 +94,7 @@ export default function DetalleContrato({history}) {
                         )}
                     </List>
                     <Divider borderColor="color1" borderWidth="2px" />
-                    <Text marginLeft="auto" fontWeight="bold">Total {contrato.SaldoAlCorte}</Text>
+                    <Text marginLeft="auto" fontWeight="bold">Total {contrato.Total}</Text>
 
                 </>}
                 <Link marginLeft="auto" color="color3" onClick={() => go('/contratos')}>Regresar</Link>

@@ -107,8 +107,8 @@ const formateaDatos = (obj)=>{
       obj[prop]= obj[prop].toLocaleString('en-IN',{minimumFractionDigits: 2})
     }
     if (prop.startsWith('Fecha') || prop.startsWith('VnFecha') || prop.startsWith('MvFecha')){
-      obj[prop]=obj[prop].toISOString().substring(0,10).split('-').reverse().join('-')
-      aux=obj[prop].split('-')
+      obj[`${prop}1`]=obj[prop].toISOString().substring(0,10).split('-').reverse().join('-')
+      aux=obj[`${prop}1`].split('-')
       switch (aux[1]) {
         case'01': {
           aux[1]="Ene";
@@ -160,7 +160,7 @@ const formateaDatos = (obj)=>{
         }
         }
       
-      obj[`${prop}1`]=aux.join('-')
+      obj[prop]=aux.join('-')
       
     }
      

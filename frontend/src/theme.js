@@ -26,7 +26,9 @@ const customTheme = {
     ...theme.colors,
     color1: "#718096",//gris oscuro
     color2: "#CBD5E0",//gris claro
-    color3: "#4FD1C5",//aqua
+    color3: "#4FD1C5",//aqua claro
+    color5:"#2C7A7B",//aqua oscuro
+    color6:"#E6FFFA",//aqua pastel blanco
     color4: "#FFFFFF"//blanco
   }
 }

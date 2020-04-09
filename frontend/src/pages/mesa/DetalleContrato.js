@@ -1,5 +1,5 @@
 import React, {useContext,useEffect} from 'react';
-import {Flex, Text, SimpleGrid,Divider,Box,Select,List, ListItem } from "@chakra-ui/core";
+import {Flex, Text, SimpleGrid,Divider,Box,Select,List, ListItem, Link } from "@chakra-ui/core";
 import {MyContext} from '../../context'
 import { FaUser} from 'react-icons/fa';
 
@@ -15,7 +15,9 @@ export default function DetalleContrato({history}) {
     }
     let contrato=null
     if (context.state.perfil) {contrato=context.state.perfil.contratosDetalle[context.state.indxContrato]}
-   
+    
+    const go = path => history.push(path)
+
     return (
         <MyContext.Consumer>
           {context => {
@@ -93,7 +95,7 @@ export default function DetalleContrato({history}) {
                     <Text marginLeft="auto" fontWeight="bold">Total {contrato.SaldoAlCorte}</Text>
 
                 </>}
-                <a >Regresar</a>
+                <Link marginLeft="auto" color="color3" onClick={() => go('/contratos')}>Regresar</Link>
               </Flex>
             );
           }}

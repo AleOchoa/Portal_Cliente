@@ -68,27 +68,27 @@ router.get('/perfil/:iduser',async (req,res)=>{
   //se agregan los estados de cuenta
   data.recordsets[2].forEach(registro=>{
     registro=formateaDatos(registro)
-    edoCuenta[registro.NoContrato][registro.FechaCorte.substring(0,7)]=registro
+    edoCuenta[registro.NoContrato][registro.FechaCorte.substring(3,11)]=registro
   })
   //agrega la información de AvisoVencimiento
   data.recordsets[3].forEach(registro=>{
     registro=formateaDatos(registro)
-    edoCuenta[registro.NoContrato][registro.VnFechaCorte.substring(0,7)]['AvisoVencimiento']=[]
+    edoCuenta[registro.NoContrato][registro.VnFechaCorte.substring(3,11)]['AvisoVencimiento']=[]
   })
   data.recordsets[3].forEach(registro=>{
-    edoCuenta[registro.NoContrato][registro.VnFechaCorte.substring(0,7)]['AvisoVencimiento'].push(registro)
+    edoCuenta[registro.NoContrato][registro.VnFechaCorte.substring(3,11)]['AvisoVencimiento'].push(registro)
   })
   //agrega la información de DetalleMovimientos
   data.recordsets[4].forEach(registro=>{
     registro=formateaDatos(registro)
-    edoCuenta[registro.NoContrato][registro.FechaCorte.substring(0,7)]['DetalleMovimientos']=[]
+    edoCuenta[registro.NoContrato][registro.FechaCorte.substring(3,11)]['DetalleMovimientos']=[]
   })
   data.recordsets[4].forEach(registro=>{
-    edoCuenta[registro.NoContrato][registro.FechaCorte.substring(0,7)]['DetalleMovimientos'].push(registro)
+    edoCuenta[registro.NoContrato][registro.FechaCorte.substring(3,11)]['DetalleMovimientos'].push(registro)
   })
   //agrega la información de detalle movimientos a contratosDetalle
   contratosDetalle.forEach(contrato=>{
-    if (contrato.FechaCorte) contrato['DetalleMovimientos']=edoCuenta[contrato.NoContrato[0]][contrato.FechaCorte.substring(0,7)]['DetalleMovimientos']
+    if (contrato.FechaCorte) contrato['DetalleMovimientos']=edoCuenta[contrato.NoContrato[0]][contrato.FechaCorte.substring(3,11)]['DetalleMovimientos']
   })
  
   //agrega el resumen

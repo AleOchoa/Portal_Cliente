@@ -1,5 +1,5 @@
-import React, {useContext} from 'react';
-import {MyContext} from '../../context'
+import React from 'react';
+
 import {
     Page,
     Text,
@@ -12,78 +12,59 @@ import {
 
 
 const styles = StyleSheet.create({
-    container: {
+      body:{
+       padding:'20',
+      },
+      container: {
         flexDirection: 'row',
-        '@media max-width: 400': {
-          flexDirection: 'column',
-        },
-      },
-    page: {
-        flexDirection: 'row',
-        backgroundColor: "#ffffff"
-    },
-    body: {
-        paddingTop: 35,
-        paddingBottom: 65,
-        paddingHorizontal: 35,
-    },
-      title: {
-        fontSize: 24,
-        textAlign: 'center',
-        fontFamily: 'Oswald'
-      },
-      image: {
-        marginVertical: 1,
-        marginHorizontal: 200,
-        height: 100,  
-      },
-      pageNumber: {
-        position: 'absolute',
-        fontSize: 12,
-        bottom: 30,
-        left: 0,
-        right: 0,
-        textAlign: 'center',
-        color: 'grey',
-      },
-      text: {
-        margin: 12,
-        fontSize: 14,
-        textAlign: 'justify',
-        fontFamily: 'Times-Roman'
-      },
-      subtitle: {
-        fontSize: 18,
-        margin: 12,
-        fontFamily: 'Oswald'
-      },
-        header: {
-      fontSize: 12,
-      marginBottom: 20,
-      textAlign: 'center',
-      color: 'grey',
-    },
-    rightColumn: {
-      flexDirection: 'column',
-      flexGrow: 1,
-      flexShrink: 1,
-      marginLeft: 10,//alto
-      marginRight: 50,
-      marginTop: 30,
-      borderStyle: 'solid',
-          backgroundColor: 'red',
-      color: '#fff',
-      border: 1,
-      borderWidth:2,
-      //texto superior
+        justifyContent:'space-between',
+        fontSize:'11',
+        paddingTop:'15'
       },
       leftColumn: {
+        
         flexDirection: 'column',
-        width: 170,
-        marginLeft: 30,
-        marginRight: 15,
-        marginTop: 20,
+        width: '50%',
       },
+      rightColumn: {
+        display:'flex',
+        flexDirection: 'column',
+        width:'45%',
+        
+      },
+      contenedorDos:{
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        textAlign:'center',
+        marginTop: '5'
+      },
+      contenedorNaranja:{
+        backgroundColor: '#FF6F00',
+        color: '#fff',
+        padding:'10px',
+        width:'60%',
+        borderRadius:'10',
+        borderStyle: "solid", 
+        borderColor: '#FF6F00',
+        borderWidth: 3,
+      },
+      contenedorBorde:{
+        borderColor: '#FF6F00',
+        borderStyle: "solid", 
+        borderWidth: 3,
+        padding:'10px',
+        width:'35%',
+        borderRadius:'10',
+    },
+    imagen:{
+        width: '60',
+        height: '100',
+
+    },
+     
+        
       
 
 });
@@ -96,21 +77,42 @@ export function PdfDocument(props) {
             <Page  size="A4" style={styles.page}>
             {contrato? 
                          <View style={styles.body}>
-                          <Text style={styles.header}> Estado de cuenta {contrato.NoContrato}</Text>
-                          <View style={styles.container}>
-                        <View style={styles.leftColumn}>
-                        <Text style={styles.text}>No.Contrato: {contrato.NoContrato}</Text>
-                        <Text style={styles.text}>Fecha Corte: {contrato.FechaCorte} </Text>
-                        <Text style={styles.text}>Saldo al corte: {contrato.SaldoAlCorte}</Text> 
-                        <Image style={styles.image} src="/logo.png"/>
+                             <View style={styles.container}>
+                                <View style={styles.leftColumn}>
+                                <Image style={styles.imagen} src="/logo.png"/>
+                                    <Text> EDUPASS, SA DE CV SOFOMENR </Text>
+                                    <Text> AV ANATOLE FRANCE 152A  </Text>
+                                    <Text>COL POLANCO CP11550</Text>
+                                    <Text>MEXICO CDMX</Text>
+                                </View>
+                                <View style={styles.rightColumn}>
+                                    <View style={styles.contenedorDos}>
+                                        <View style={styles.contenedorNaranja}>
+                                            <Text>IMPORTE A PAGAR</Text>
+                                        </View>
+                                        <View style={styles.contenedorBorde}> 
+                                        <Text>{contrato.SaldoAlCorte}</Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.contenedorDos}>
+                                        <View style={styles.contenedorNaranja}>
+                                            <Text>FECHA DE PAGO</Text>
+                                        </View>
+                                        <View style={styles.contenedorBorde}> 
+                                            <Text>{contrato.FechaCorte}</Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.contenedorDos}>
+                                        <View style={styles.contenedorNaranja}>
+                                            <Text>NO DE CLIENTE</Text>
+                                        </View>
+                                        <View style={styles.contenedorBorde}> 
+                                            <Text>{contrato.NoCliente}</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            </View>           
                         </View>
-                        <Text>{contrato.SaldoAlCorte}</Text>
-                    </View>
-                    <View style={styles.rightColumn}>
-                      <Text>This one does not wrap well testing the wrap features, I see some words getting cut off</Text>
-                    </View>
-                  </View>
-                  
                
             : ""}
                   <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (

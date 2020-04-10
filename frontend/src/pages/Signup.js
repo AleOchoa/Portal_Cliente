@@ -39,7 +39,7 @@ export default function Signup({ history }) {
             
             
             <FormControl isRequired as="form" onSubmit={submit} marginTop="10vh" display="flex" h="60%" justifyContent="center" w="100%" p={4} color="red">
-              <Stack width="40%" minWidth="300px">
+              <Stack color="color5" width="40%" minWidth="300px">
                   <Heading as="h2" color="color5">Captura de datos personales</Heading>
                  
                  <FormLabel htmlFor="fname">Nombre</FormLabel>

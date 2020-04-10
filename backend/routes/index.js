@@ -58,6 +58,7 @@ router.get('/perfil/:iduser',async (req,res)=>{
   
   //ingresa los contratos y el detalle de los contratos
   data.recordsets[1].forEach(contrato=>{
+    contrato.Total=contrato.CargosDelPeriodo-contrato.PagosDelPeriodo
     contrato=formateaDatos(contrato)
     contrato.show=false
     contratos.push(contrato.NoContrato[0])
@@ -67,27 +68,27 @@ router.get('/perfil/:iduser',async (req,res)=>{
   //se agregan los estados de cuenta
   data.recordsets[2].forEach(registro=>{
     registro=formateaDatos(registro)
-    edoCuenta[registro.NoContrato][registro.FechaCorte.substring(0,7)]=registro
+    edoCuenta[registro.NoContrato][registro.FechaCorte.substring(3,11)]=registro
   })
   //agrega la información de AvisoVencimiento
   data.recordsets[3].forEach(registro=>{
     registro=formateaDatos(registro)
-    edoCuenta[registro.NoContrato][registro.VnFechaCorte.substring(0,7)]['AvisoVencimiento']=[]
+    edoCuenta[registro.NoContrato][registro.VnFechaCorte.substring(3,11)]['AvisoVencimiento']=[]
   })
   data.recordsets[3].forEach(registro=>{
-    edoCuenta[registro.NoContrato][registro.VnFechaCorte.substring(0,7)]['AvisoVencimiento'].push(registro)
+    edoCuenta[registro.NoContrato][registro.VnFechaCorte.substring(3,11)]['AvisoVencimiento'].push(registro)
   })
   //agrega la información de DetalleMovimientos
   data.recordsets[4].forEach(registro=>{
     registro=formateaDatos(registro)
-    edoCuenta[registro.NoContrato][registro.FechaCorte.substring(0,7)]['DetalleMovimientos']=[]
+    edoCuenta[registro.NoContrato][registro.FechaCorte.substring(3,11)]['DetalleMovimientos']=[]
   })
   data.recordsets[4].forEach(registro=>{
-    edoCuenta[registro.NoContrato][registro.FechaCorte.substring(0,7)]['DetalleMovimientos'].push(registro)
+    edoCuenta[registro.NoContrato][registro.FechaCorte.substring(3,11)]['DetalleMovimientos'].push(registro)
   })
   //agrega la información de detalle movimientos a contratosDetalle
   contratosDetalle.forEach(contrato=>{
-    if (contrato.FechaCorte) contrato['DetalleMovimientos']=edoCuenta[contrato.NoContrato[0]][contrato.FechaCorte.substring(0,7)]['DetalleMovimientos']
+    if (contrato.FechaCorte) contrato['DetalleMovimientos']=edoCuenta[contrato.NoContrato[0]][contrato.FechaCorte.substring(3,11)]['DetalleMovimientos']
   })
  
   //agrega el resumen
@@ -97,14 +98,70 @@ router.get('/perfil/:iduser',async (req,res)=>{
 
 const formateaDatos = (obj)=>{
   let cantidades=['MontoFinanciado','SaldoInsoluto','SaldoAlCorte','SaldoAlCorteAnterior','PagosDelPeriodo','CargosDelPeriodo','CapitalPeriodo','InteresPeriodo','IVAPeriodo','ComisionesPeriodo','OtrosCargosPeriodo','SaldoPromedio','MontoProxVenc','CapitalXPagar','InteresXPagar','OtrosXPagar','ComisionesXPagar','IvaXPagar','TotalAPagar','Pago','SaldoAFavor','SaldoVencido','VnBaseCalculo','VnCapital','VnIvaCapital','VnInteres','VnIvaInteres','VnImporteTotal','MvImporteCargo','MvImporteAbono','MvCapital','MvInteres','MvIva','MvOtros','MvTotalMovimiento']
+  let aux
+
   for (prop in obj){
 
     if (typeof obj[prop]==='number' && cantidades.includes(prop)) {
-      obj[`${prop}1`]=obj[prop].toLocaleString('en-IN', { style: 'currency', currency: 'USD' }) //si en queremos $MX213 hay que poner currency:'MXN'
-      obj[prop]= obj[prop].toLocaleString('en-IN')
+      obj[`${prop}1`]=obj[prop].toLocaleString('en-IN', {minimumFractionDigits: 2, style: 'currency', currency: 'USD' }) //si en queremos $MX213 hay que poner currency:'MXN'
+      obj[prop]= obj[prop].toLocaleString('en-IN',{minimumFractionDigits: 2})
     }
     if (prop.startsWith('Fecha') || prop.startsWith('VnFecha') || prop.startsWith('MvFecha')){
-      obj[prop]=obj[prop].toISOString().substring(0,10)
+      obj[`${prop}1`]=obj[prop].toISOString().substring(0,10).split('-').reverse().join('-')
+      aux=obj[`${prop}1`].split('-')
+      switch (aux[1]) {
+        case'01': {
+          aux[1]="Ene";
+          break;
+        }
+        case'02': {
+          aux[1]="Feb";
+          break;
+        }
+        case'03': {
+          aux[1]="Mar";
+          break;
+        }
+        case'04': {
+          aux[1]="Abr";
+          break;
+        }
+        case'05': {
+          aux[1]="May";
+          break;
+        }
+        case'06': {
+          aux[1]="Jun";
+          break;
+        }
+        case'07': {
+          aux[1]="Jul";
+          break;
+        }
+        case'08': {
+          aux[1]="Ago";
+          break;
+        }
+        case'09': {
+          aux[1]="Sep";
+          break;
+        }
+        case'10': {
+          aux[1]="Oct";
+          break;
+        }
+        case'11': {
+          aux[1]="Nov";
+          break;
+        }
+        case'12': {
+          aux[1]="Dic";
+          break;
+        }
+        }
+      
+      obj[prop]=aux.join('-')
+      
     }
      
   }

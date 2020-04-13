@@ -1,7 +1,10 @@
 import React, {useContext,useEffect} from 'react';
 import {Flex, Text, SimpleGrid,Divider,Box,Select,List, ListItem, Link } from "@chakra-ui/core";
 import {MyContext} from '../../context'
-import { FaUser} from 'react-icons/fa';
+import { FaUser,FaRegFilePdf,FaRegFileExcel} from 'react-icons/fa';
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { PdfDocument } from "../mesa/PdfDocument";
+import { CSVLink } from 'react-csv'
 
 export default function DetalleContrato({history}) {  
     const context = useContext(MyContext)
@@ -14,8 +17,13 @@ export default function DetalleContrato({history}) {
       await context.setContratoDetalle(e.target.value)
     }
     let contrato=null
-    let total=null
-    if (context.state.perfil) {contrato=context.state.perfil.contratosDetalle[context.state.indxContrato]}
+    let infoExcel=[]
+    if (context.state.perfil) {
+      contrato=context.state.perfil.contratosDetalle[context.state.indxContrato]
+      contrato.DetalleMovimientos.forEach(registro=>{
+      infoExcel.push({Fecha:registro.MvFechavalor,Descripcion:registro.MvDescripcion,Importe:registro.MvTotalMovimiento})
+      })
+    }
     
     const go = path => history.push(path)
     return (
@@ -53,7 +61,7 @@ export default function DetalleContrato({history}) {
                       <Box>Fecha: <Text as="span" color="color3">{contrato.FechaCorte} </Text></Box>
                     </Box>
                     <br/>
-                    <Box display="flex" textAlign="left" justifyContent="space-between">
+                    <Box display="flex" textAlign="left" justifyContent="space-between" height='auto'>
                         <Box width="45%">
                           <Box display="flex" justifyContent="space-between" ><Text as="span" fontWeight="bold">Fecha de apertura:</Text>  {contrato.FechaApertura} </Box>
                           <Box display="flex" justifyContent="space-between" ><Text as="span" fontWeight="bold">Fecha de término:</Text>  {contrato.FechaTermino} </Box>
@@ -69,6 +77,21 @@ export default function DetalleContrato({history}) {
                           <Box display="flex" justifyContent="space-between"><Text as="span" fontWeight="bold">Saldo total:</Text>  {contrato.SaldoAlCorte} </Box>
                         </Box>
                     </Box>
+{/* Descarga info */}
+                    <Box color='color3' display='flex' justifyContent='flex-end'>
+{/*descarga pdf*/}
+                      <PDFDownloadLink
+                          document={<PdfDocument data={{...perfil.edoCuenta[contrato.NoContrato[0]][contrato.FechaCorte.substring(3,11)],...perfil.cliente}} />}
+                          fileName={`EdoCuenta${contrato.NoContrato[0]}${contrato.FechaCorte.substring(3,11)}.pdf`}
+                        >
+                          <Box height='15px' width='15px' as={FaRegFilePdf} />
+                      </PDFDownloadLink>
+{/*Descarga excel */}
+                      <CSVLink data={infoExcel} filename={`DetalleMovimientos${contrato.NoContrato[0]}${contrato.FechaCorte.substring(3,11)}.csv`}>
+                          <Box height='15px' width='15px' as={FaRegFileExcel} />
+                      </CSVLink>
+                    </Box>
+{/*Tabla con detalle movimientos */}
                     <List>
                       <ListItem>
                         <Divider borderColor="color1"  borderWidth="2px"/>

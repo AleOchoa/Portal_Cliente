@@ -7,18 +7,18 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Usuarios from './pages/admin/Usuarios'
 import Contratos from './pages/mesa/Contratos';
-import Clientes from './pages/mesa/PdfVarios'
+import EstadosCuenta from './pages/mesa/PdfVarios'
 import DetalleContrato from './pages/mesa/DetalleContrato'
 const Router = () => (
   <>
   <Navbar />
-  <Box marginTop="10vh"/>
+  <Box height="10vh" minHeight="64px"/>
     <Switch>
       <Route exact path="/" component={Login} />
       <Route exact path="/crearCuenta" component={Signup} />
       <Route exact path="/usuarios" component={Usuarios} />
       <Route exact path="/contratos" component={Contratos} />
-      <Route exact path="/clientes" component={Clientes}/>
+      <Route exact path="/estadoCuenta" component={EstadosCuenta}/>
       <Route exact path="/detalleContrato" component={DetalleContrato}/>
      
       <Route component={NotFound} />

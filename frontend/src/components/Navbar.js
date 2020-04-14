@@ -23,15 +23,15 @@ function Navbar({ history }) {
             top={0}
             zIndex="99"
             w="100vw"
-            h="10vh"
+            height="10vh"
             p={8}
             align="center"
             justify="space-between"
             backgroundColor="color3"
           >
-            <Image h="9vh"  src="/logo_blanco.webp" />
+            <Image height="9vh"  src="/logo_blanco.webp" />
             {context.state.isLogged && (
-            <Menu>
+            <Menu autoSelect={false} >
               <MenuButton
                 as={IconButton}
                 variant="outline"
@@ -44,17 +44,20 @@ function Navbar({ history }) {
               <MenuList>
                 {context.state.isAdmin && (
                   <>
-                    <MenuItem onClick={() => go('/usuarios')}>Usuarios</MenuItem>
-                    <MenuItem onClick={() => go('/clientes')}>Clientes</MenuItem>
-                    <MenuItem onClick={() => go('/contratos')}>Contratos</MenuItem>
+                    <MenuItem onClick={() => go('/usuarios')}>Usuarios</MenuItem>            
                     <MenuItem onClick={context.handleLogout}>Logout</MenuItem>
                   </>
                 )}
                 {!context.state.isAdmin && (
                   <>
-                    <MenuItem onClick={() => go('/clientes')}>Clientes</MenuItem>
-                    <MenuItem onClick={() => go('/contratos')}>Contratos</MenuItem>
-                    <MenuItem onClick={context.handleLogout}>Logout</MenuItem>
+                    <MenuItem onClick={() => go('/contratos')}>Mi cuenta</MenuItem>
+                    <MenuItem onClick={() => go('/detalleContrato')}>Detalle Contratos</MenuItem>
+                    <MenuItem onClick={() => go('/estadoCuenta')}>Estados de cuenta</MenuItem>
+                    <MenuItem onClick={() => go('/estadoCuenta')}>Pago en línea</MenuItem>
+                    <MenuItem onClick={() => go('/estadoCuenta')}>Consulta de factura</MenuItem>
+                    <MenuItem onClick={() => go('/estadoCuenta')}>Cambio de contraseña</MenuItem>
+                    <MenuItem onClick={() => go('/estadoCuenta')}>Atención a cliente</MenuItem>
+                    <MenuItem onClick={context.handleLogout}>Cerrar sesión</MenuItem>
                   </>
                 )}
               </MenuList>

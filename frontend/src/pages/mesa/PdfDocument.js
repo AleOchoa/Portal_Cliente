@@ -279,7 +279,6 @@ const styles = StyleSheet.create({
 
 export function PdfDocument(props) {
     const contrato=props.data
-    console.log("pdf props", props.data);
     return (
         <Document>
             <Page  size="A4" style={styles.page}>

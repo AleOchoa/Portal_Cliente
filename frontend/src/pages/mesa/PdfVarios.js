@@ -16,16 +16,16 @@ export default function PDFVarios({ history }){
     const handleChange=async(e)=>{
       //si se modifica el contrato se debe borrar la fecha
       const {name,value}=e.target
-      console.log(name)
+     
       if (name==='contrato') {
-        console.log('se cambia no contrato')
+        
         await context.handleChange('fecha','','edoCuenta')
         await context.getFechasEdoCuenta(value)
       } 
 
       await context.handleChange(name,value,'edoCuenta')
       if (name==='fecha') {
-        console.log('pdf')
+        
         await context.handleChange('show',true,'edoCuenta')
       }
     }

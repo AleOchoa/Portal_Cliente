@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
       leftColumn1: {
         flexDirection: 'column',
         width: '50%',
-        backgroundColor:'red',
         borderColor: '#FF6F00',
         borderStyle: "solid", 
         borderWidth: 3,
@@ -87,7 +86,6 @@ const styles = StyleSheet.create({
       rightColumn1: {
         display:'flex',
         flexDirection: 'column',
-        backgroundColor:'red',
         width:'45%',
         borderColor: '#FF6F00',
         borderStyle: "solid", 
@@ -270,7 +268,16 @@ const styles = StyleSheet.create({
         borderColor: '##FF6F00',
         fontSize: 12 
       },
-       
+      pageNumber: {
+        position: 'absolute',
+        fontSize: 12,
+        bottom: 30,
+        left: 0,
+        right: 0,
+        textAlign: 'center',
+        color: 'grey',
+      },
+
 
         
       
@@ -280,244 +287,252 @@ const styles = StyleSheet.create({
 export function PdfDocument(props) {
     const contrato=props.data
     return (
-        <Document>
-            <Page  size="A4" style={styles.page}>
+        <>
             {contrato? 
-                         <View style={styles.body}>
-                             <View style={styles.container}>
-                                <View style={styles.leftColumn}>
-                                <Image style={styles.imagen} src="/logo.png"/>
-                                    <Text> EDUPASS, SA DE CV SOFOMENR </Text>
-                                    <Text> AV ANATOLE FRANCE 152A  </Text>
-                                    <Text>COL POLANCO CP11550</Text>
-                                    <Text>MEXICO CDMX</Text>
-                                </View>
-                                <View style={styles.rightColumn}>
-                                    <View style={styles.contenedorDos}>
-                                        <View style={styles.contenedorNaranja}>
-                                            <Text>IMPORTE A PAGAR</Text>
-                                        </View>
-                                        <View style={styles.contenedorBorde}> 
-                                        <Text>{contrato.SaldoAlCorte}</Text>
-                                        </View>
-                                    </View>
-                                    <View style={styles.contenedorDos}>
-                                        <View style={styles.contenedorNaranja}>
-                                            <Text>FECHA DE PAGO</Text>
-                                        </View>
-                                        <View style={styles.contenedorBorde}> 
-                                            <Text>{contrato.FechaCorte}</Text>
-                                        </View>
-                                    </View>
-                                    <View style={styles.contenedorDos}>
-                                        <View style={styles.contenedorNaranja}>
-                                            <Text>NO DE CLIENTE</Text>
-                                        </View>
-                                        <View style={styles.contenedorBorde}> 
-                                            <Text>{contrato.NoCliente}</Text>
-                                        </View>
-                                    </View>
-                                </View>
-                            </View> 
-                                <View style={styles.container}>
-                                <View style={styles.leftColumn}>
-                                    <View style={styles.contenedorDos}>
-                                    <View style={styles.contenedorNaranja1}>
-                                    <Text>DATOS DEL CLIENTE</Text>
-                                </View>     
-                                </View>     
-                                </View>
-                                <View style={styles.rightColumn}>
-                                    <View style={styles.contenedorDos}>
-                                    <View style={styles.contenedorNaranja1}>
-                                        <Text>Informacion de la cuenta</Text>
-                                    </View>
-                                    </View>
-                                    </View>
-                                </View>
-                                
-                                <View style={styles.container}>
-                                <View style={styles.leftColumn1}>
-                                <Text>NOMBRE</Text>
-                                </View>
-                                <View style={styles.rightColumn1}>
-                                    <Text>INFORACION DE LA CUENTA $5555</Text>
-                                    </View>
-                                </View>
-                                
-                                <View style={styles.container}>
-                                <View style={styles.contenedorNaranjaT}>
-                                        <Text>RESUMEN DEL PRERIODO</Text>
-                                        <Text>DEL 13 DE eNERO 2020 AL 13 DE ABRIL 2020</Text>
-                                    </View>
-                                </View> 
-                                
-                                <View style={styles.table}wrap>
-                                    <View style={styles.tableRow}>
-                                        <View style={styles.tableColHeader}>			  		       
-                                        <Text style={styles.tableCellHeader}>SALDO AL CORTE</Text>
-                                        <Text style={styles.tableCellHeader}>SALDO AL CORTE</Text>
-                                        <Text style={styles.tableCellHeader}>SALDO AL CORTE</Text>
-                                        <Text style={styles.tableCellHeader}>SALDO AL CORTE</Text>
-                                    </View>
-                                    <View style={styles.tableColHeader}>			  		       
-                                        <Text style={styles.tableCellHeader}>Header1</Text>
-                                    </View>
-                                    </View>      
-                                </View>
-                                
-                                <View style={styles.container}>
-                                    <View style={styles.contenedorNaranjaT}>
-                                        <Text>CUENTAS PARA PAGO</Text>
-                                    </View>
-                                </View> 
-                                
-                                <View style={styles.container}>
-                                <View style={styles.Cuentas}>
-                                <View style={styles.cuentatable} wrap> 
-                                    <View style={styles.cuentatableRow}> 
-                                    <View style={styles.cuentatableColHeader}> 
-                                        <Text style={styles.cuentatableCellHeader}>BANCO</Text> 
-                                    </View> 
-                                    <View style={styles.cuentatableColHeader}> 
-                                        <Text style={styles.cuentatableCellHeader}>CONVENIO</Text> 
-                                    </View>
-                                    <View style={styles.cuentatableColHeader}> 
-                                        <Text style={styles.cuentatableCellHeader}>TITULAR</Text> 
-                                    </View>
-                                    <View style={styles.cuentatableColHeader}> 
-                                        <Text style={styles.cuentatableCellHeader}>REFERENCIA</Text> 
-                                    </View>
-                                    </View>
-                                    <View style={styles.cuentatableRow}> 
-                                    <View style={styles.cuentatableCol}> 
-                                        <Text style={styles.cuentatableCell}>React-PDF</Text> 
-                                    </View> 
-                                    <View style={styles.cuentatableCol}> 
-                                        <Text style={styles.cuentatableCell}>3</Text> 
-                                    </View> 
-                                    <View style={styles.cuentatableCol}>
-                                        <Text style={styles.cuentatableCell}>2019-02-20 - 2020-02-19</Text> 
-                                    </View>
-                                    <View style={styles.cuentatableCol}> 
-                                        <Text style={styles.cuentatableCell}>5€</Text> 
-                                    </View> 
-                                    </View> 
-                                    <View style={styles.cuentatableRow}> 
-                                    <View style={styles.cuentatableCol}> 
-                                        <Text style={styles.cuentatableCell}>Another row</Text> 
-                                    </View> 
-                                    <View style={styles.cuentatableCol}> 
-                                        <Text style={styles.cuentatableCell}>Capítulo I: Que trata de la condición y ejercicio del famoso hidalgo D.
-                                    Quijote de la Mancha</Text> 
-                                    </View> 
-                                    <View style={styles.cuentatableCol}>
-                                        <Text style={styles.cuentatableCell}>2019-05-20 - 2020-07-19</Text> 
-                                    </View>
-                                    <View style={styles.cuentatableCol}> 
-                                        <Text style={styles.cuentatableCell}>25€</Text> 
-                                    </View>  
-                                    </View>        
-                                </View>     
-                                </View>
-                                </View>
-                                
-                                    <View style={styles.container}>
-                                    <View style={styles.contenedorNaranjaT}>
-                                        <Text>DETALLE DE MOVIMIENTOS</Text>
-                                        <Text>DEL 13 DE ENERO 2020 AL 13 DE ABRIL 2020</Text>
-                                    </View>
-                                </View>
-                                <View style={styles.detalletable} wrap> 
-                                    <View style={styles.detalletableRow}> 
-                                    <View style={styles.detalletableColHeader}> 
-                                        <Text style={styles.detalletableCellHeader}>FECHA</Text> 
-                                    </View> 
-                                    <View style={styles.detalletableColHeader}> 
-                                        <Text style={styles.detalletableCellHeader}>DESCRIPCION</Text> 
-                                    </View>
-                                    <View style={styles.detalletableColHeader}> 
-                                        <Text style={styles.detalletableCellHeader}>CARGO</Text> 
-                                    </View>
-                                    <View style={styles.detalletableColHeader}> 
-                                        <Text style={styles.detalletableCellHeader}>ABONO</Text> 
-                                    </View>
-                                    </View>
-                                    <View style={styles.detalletableRow}> 
-                                    <View style={styles.detalletableCol}> 
-                                        <Text style={styles.detalletableCell}>React-PDF</Text> 
-                                    </View> 
-                                    <View style={styles.detalletableCol}> 
-                                        <Text style={styles.detalletableCell}>3</Text> 
-                                    </View> 
-                                    <View style={styles.detalletableCol}>
-                                        <Text style={styles.detalletableCell}>2019-02-20 - 2020-02-19</Text> 
-                                    </View>
-                                    <View style={styles.detalletableCol}> 
-                                        <Text style={styles.detalletableCell}>5€</Text> 
-                                    </View> 
-                                    </View> 
-                                </View>  
-                                
-                                
-                                    <View style={styles.container}>
-                                    <View style={styles.contenedorNaranjaT}>
-                                        <Text>AVISO DE VENCIMIENTO</Text>
-                                        
-                                    </View>
-                                </View>
-                                <View style={styles.detalletable} wrap> 
-                                    <View style={styles.detalletableRow}> 
-                                    <View style={styles.detalletableColHeader}> 
-                                        <Text style={styles.detalletableCellHeader}>FECHA</Text> 
-                                    </View> 
-                                    <View style={styles.detalletableColHeader}> 
-                                        <Text style={styles.detalletableCellHeader}>DESCRIPCION</Text> 
-                                    </View>
-                                    <View style={styles.detalletableColHeader}> 
-                                        <Text style={styles.detalletableCellHeader}>CARGO</Text> 
-                                    </View>
-                                    <View style={styles.detalletableColHeader}> 
-                                        <Text style={styles.detalletableCellHeader}>ABONO</Text> 
-                                    </View>
-                                    </View>
-                                    <View style={styles.detalletableRow}> 
-                                    <View style={styles.detalletableCol}> 
-                                        <Text style={styles.detalletableCell}>React-PDF</Text> 
-                                    </View> 
-                                    <View style={styles.detalletableCol}> 
-                                        <Text style={styles.detalletableCell}>3</Text> 
-                                    </View> 
-                                    <View style={styles.detalletableCol}>
-                                        <Text style={styles.detalletableCell}>2019-02-20 - 2020-02-19</Text> 
-                                    </View>
-                                    <View style={styles.detalletableCol}> 
-                                        <Text style={styles.detalletableCell}>5€</Text> 
-                                    </View> 
-                                    </View> 
-                                </View>  
-                                
-                                <View style={styles.container}>
-                                <View style={styles.Cuentas}>
-                                    <Text style={styles.detalletableCell}>LEYENDAS</Text>   
-                                </View>
-                                </View>
-                                <View>  
-                                <Text>IMPORTANTE</Text>  
-                                <View style={styles.container}>
-                                <View style={styles.Cuentas}>
-                                    <Text style={styles.detalletableCell}>LEYENDAS 2</Text>   
-                                </View>
-                                </View>
-                                </View>
-             
-                        </View>
-               
-            : ""}
-                  <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
-        `${pageNumber} / ${totalPages}`
-      )} fixed />
+                <Document>
+            <Page pageNumber={1} size="A4" style={styles.body}>   
+  <View  fixed>
+  <View style={styles.container}>
+     <View style={styles.leftColumn}>
+     <Image style={styles.imagen} src="/logo.png"/>
+         <Text> EDUPASS, SA DE CV SOFOMENR </Text>
+         <Text> AV ANATOLE FRANCE 152A  </Text>
+         <Text>COL POLANCO CP11550</Text>
+         <Text>MEXICO CDMX</Text>
+     </View>
+     <View style={styles.rightColumn}>
+         <View style={styles.contenedorDos}>
+             <View style={styles.contenedorNaranja}>
+                 <Text>IMPORTE A PAGAR</Text>
+             </View>
+             <View style={styles.contenedorBorde}> 
+             <Text>{contrato.SaldoAlCorte}</Text>
+             </View>
+         </View>
+         <View style={styles.contenedorDos}>
+             <View style={styles.contenedorNaranja}>
+                 <Text>FECHA DE PAGO</Text>
+             </View>
+             <View style={styles.contenedorBorde}> 
+                 <Text>{contrato.FechaCorte}</Text>
+             </View>
+         </View>
+         <View style={styles.contenedorDos}>
+             <View style={styles.contenedorNaranja}>
+                 <Text>NO DE CLIENTE</Text>
+             </View>
+             <View style={styles.contenedorBorde}> 
+                 <Text>{contrato.NoCliente}</Text>
+             </View>
+           </View>
+     </View>
+  </View> 
+  <View style={styles.container}>
+    <View style={styles.leftColumn}>
+        <View style={styles.contenedorDos}>
+        <View style={styles.contenedorNaranja1}>
+            <Text>DATOS DEL CLIENTE</Text>
+        </View>     
+        </View>     
+        </View>
+        <View style={styles.rightColumn}>
+        <View style={styles.contenedorDos}>
+        <View style={styles.contenedorNaranja1}>
+            <Text>INFORMACIÓN DE LA CUENTA</Text>
+        </View>
+        </View>
+    </View>
+</View>      
+
+    <View style={styles.container}>
+    <View style={styles.leftColumn1}>
+        <Text>{contrato.NombreCliente} {"\n"} {contrato.Calle}{contrato.NoExt}{"\n"}COL.{contrato.Colonia} CP.{contrato.CodigoPostal}{"\n"}
+            {contrato.Municipio} {contrato.Estado} {"\n"} {contrato.RFC} {"\n"}NO CLIENTE:{contrato.NoCliente} {"\n"}NO CONTRATO:{contrato.NoContrato}</Text>
+    </View>
+    <View style={styles.rightColumn1}>
+        <Text >MONTO FINANCIADO{contrato.MontoFinanciado} {"\n"} CAPITAL NO EXIGIBLE{contrato.SaldoInsoluto}{"\n"}CAT SIN IVA (COSTO ANUAL TOTAL){contrato.CAT}% {"\n"} TASA DE INTERÉS ORDINARIA{contrato.Tasa[0]}{"\n"}
+           TASA DE INTERÉS MORATORIA  {contrato.TasaMora[0]} {"\n"} INTERESES COBRADOS{contrato.InteresPeriodo} {"\n"}COMISIONES CARGADAS{contrato.ComisionesPeriodo} </Text>
+    </View>
+    </View>
+
+    <View style={styles.container}>
+    <View style={styles.contenedorNaranjaT}>
+        <Text >RESUMEN DEL PRERIODO</Text>
+        <Text>DEL 13 DE eNERO 2020 AL 13 DE ABRIL 2020</Text>
+    </View>
+    </View> 
+
+    <View style={styles.table}wrap>
+    <View style={styles.tableRow}>
+    <View style={styles.tableColHeader}>			  		       
+        <Text style={styles.tableCellHeader}>{contrato.MontoFinanciado}{'\n\n'} CORTE</Text>
+        <Text style={styles.tableCellHeader}>SALDO AL CORTE</Text>
+        <Text style={styles.tableCellHeader}>SALDO AL CORTE</Text>
+        <Text style={styles.tableCellHeader}>SALDO AL CORTE</Text>
+    </View>
+    <View style={styles.tableColHeader}>			  		       
+      <Image style={styles.imagen} src="/logo.png"/>
+    </View>
+    </View>      
+    </View>
+
+    <View style={styles.container}>
+    <View style={styles.contenedorNaranjaT}>
+        <Text>CUENTAS PARA PAGO</Text>
+    </View>
+    </View> 
+
+    <View style={styles.container}>
+        <View style={styles.Cuentas}>
+        <View style={styles.cuentatable} wrap> 
+        <View style={styles.cuentatableRow}> 
+        <View style={styles.cuentatableColHeader}> 
+            <Text style={styles.cuentatableCellHeader}>BANCO</Text> 
+        </View> 
+        <View style={styles.cuentatableColHeader}> 
+            <Text style={styles.cuentatableCellHeader}>CONVENIO</Text> 
+        </View>
+        <View style={styles.cuentatableColHeader}> 
+            <Text style={styles.cuentatableCellHeader}>TITULAR</Text> 
+        </View>
+        <View style={styles.cuentatableColHeader}> 
+            <Text style={styles.cuentatableCellHeader}>REFERENCIA</Text> 
+        </View>
+        </View>
+        <View style={styles.cuentatableRow}> 
+        <View style={styles.cuentatableCol}> 
+            <Text style={styles.cuentatableCell}>React-PDF</Text> 
+        </View> 
+        <View style={styles.cuentatableCol}> 
+            <Text style={styles.cuentatableCell}>3</Text> 
+        </View> 
+        <View style={styles.cuentatableCol}>
+            <Text style={styles.cuentatableCell}>2019-02-20 - 2020-02-19</Text> 
+        </View>
+        <View style={styles.cuentatableCol}> 
+            <Text style={styles.cuentatableCell}>5€</Text> 
+        </View> 
+        </View> 
+        <View style={styles.cuentatableRow}> 
+        <View style={styles.cuentatableCol}> 
+            <Text style={styles.cuentatableCell}>Another row</Text> 
+        </View> 
+        <View style={styles.cuentatableCol}> 
+            <Text style={styles.cuentatableCell}>Capítulo I: Que trata de la condición y ejercicio del famoso hidalgo D.
+            Quijote de la Mancha</Text> 
+        </View> 
+        <View style={styles.cuentatableCol}>
+            <Text style={styles.cuentatableCell}>2019-05-20 - 2020-07-19</Text> 
+        </View>
+        <View style={styles.cuentatableCol}> 
+            <Text style={styles.cuentatableCell}>25€</Text> 
+        </View>  
+        </View>        
+        </View>     
+        </View>
+        </View>
+    </View>
+</Page>
+
+<Page pageNumber={1} size="A4" style={styles.body}> 
+    <View fixed>
+        <View style={styles.container}>
+            <View style={styles.contenedorNaranjaT}>
+                <Text>DETALLE DE MOVIMIENTOS</Text>
+                <Text>DEL 13 DE ENERO 2020 AL 13 DE ABRIL 2020</Text>
+            </View>
+            </View>
+            <View style={styles.detalletable} wrap> 
+            <View style={styles.detalletableRow}> 
+            <View style={styles.detalletableColHeader}> 
+                <Text style={styles.detalletableCellHeader}>FECHA</Text> 
+            </View> 
+            <View style={styles.detalletableColHeader}> 
+                <Text style={styles.detalletableCellHeader}>DESCRIPCION</Text> 
+            </View>
+            <View style={styles.detalletableColHeader}> 
+                <Text style={styles.detalletableCellHeader}>CARGO</Text> 
+            </View>
+            <View style={styles.detalletableColHeader}> 
+                <Text style={styles.detalletableCellHeader}>ABONO</Text> 
+            </View>
+            </View>
+            <View style={styles.detalletableRow}> 
+            <View style={styles.detalletableCol}> 
+                <Text style={styles.detalletableCell}>React-PDF</Text> 
+            </View> 
+            <View style={styles.detalletableCol}> 
+                <Text style={styles.detalletableCell}>3</Text> 
+            </View> 
+            <View style={styles.detalletableCol}>
+                <Text style={styles.detalletableCell}>2019-02-20 - 2020-02-19</Text> 
+            </View>
+            <View style={styles.detalletableCol}> 
+                <Text style={styles.detalletableCell}>5€</Text> 
+            </View> 
+            </View> 
+            </View>  
+
+            <View style={styles.container}>
+            <View style={styles.contenedorNaranjaT}>
+                <Text>AVISO DE VENCIMIENTO</Text>
+            </View>
+            </View>
+            <View style={styles.detalletable} wrap> 
+            <View style={styles.detalletableRow}> 
+            <View style={styles.detalletableColHeader}> 
+                <Text style={styles.detalletableCellHeader}>FECHA</Text> 
+            </View> 
+            <View style={styles.detalletableColHeader}> 
+                <Text style={styles.detalletableCellHeader}>DESCRIPCION</Text> 
+            </View>
+            <View style={styles.detalletableColHeader}> 
+                <Text style={styles.detalletableCellHeader}>CARGO</Text> 
+            </View>
+            <View style={styles.detalletableColHeader}> 
+                <Text style={styles.detalletableCellHeader}>ABONO</Text> 
+            </View>
+            </View>
+            <View style={styles.detalletableRow}> 
+            <View style={styles.detalletableCol}> 
+                <Text style={styles.detalletableCell}>React-PDF</Text> 
+            </View> 
+            <View style={styles.detalletableCol}> 
+                <Text style={styles.detalletableCell}>3</Text> 
+            </View> 
+            <View style={styles.detalletableCol}>
+                <Text style={styles.detalletableCell}>2019-02-20 - 2020-02-19</Text> 
+            </View>
+            <View style={styles.detalletableCol}> 
+                <Text style={styles.detalletableCell}>5€</Text> 
+            </View> 
+            </View> 
+        </View>  
+
+        <View style={styles.container}>
+            <View style={styles.Cuentas}>
+                <Text style={styles.detalletableCell}>LEYENDAS</Text>   
+            </View>
+            </View>
+            <View>  
+                <Text>IMPORTANTE</Text>  
+            <View style={styles.container}>
+            <View style={styles.Cuentas}>
+                <Text style={styles.detalletableCell}>LEYENDAS 2</Text>   
+            </View>
+            </View>
+        </View>
+
+
+    </View>
+          
+
+    
+          
+                                              
             </Page>
         </Document>
-    );
+             : <Document />} 
+   </> );
+ 
 }

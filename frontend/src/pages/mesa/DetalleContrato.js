@@ -14,7 +14,7 @@ export default function DetalleContrato({history}) {
       await context.setContratoDetalle(e.target.value)
     }
     let contrato=null
-    let total=null
+    
     if (context.state.perfil) {contrato=context.state.perfil.contratosDetalle[context.state.indxContrato]}
     
     const go = path => history.push(path)

@@ -24,7 +24,7 @@ export default function Contratos({history}) {
             return (
               <Flex direction="column" alignItems="center" justifyContent="center">
 {/*Datos del cliente*/}
-                <Box  margin="1vh 0" display="flex" width="50vw">
+                <Box  margin="1vh 0" display="flex" minWidth="400px" width="50vw">
                   <Box padding="10px" color="color4" display="flex" backgroundColor="color1" width="50vw" direction="row" justifyContent="space-around" alignItems="center">
                     <Box as={FaUser} height="20vh" width="20vh"/>
                     <Box textAlign="left" width="50%" display="flex" flexDirection="column">
@@ -35,7 +35,7 @@ export default function Contratos({history}) {
                       {perfil && <p>{perfil.cliente.NoCliente}</p>}
                     </Box>
                   </Box>
-                  <Box display="flex" color="color1" backgroundColor="color2"  width="50vw" flexDirection="column" justifyContent="space-around">
+                  <Box display="flex" color="color1" backgroundColor="color2" width="50vw" flexDirection="column" justifyContent="space-around">
                     <Box>
                       <Icon name="email"/>
                       {perfil && <>    {perfil.cliente.Email}</>}
@@ -51,7 +51,7 @@ export default function Contratos({history}) {
                   </Box>
                 </Box>  
 {/*Resumen de cuentas */}
-                <Box margin="1vh 0" backgroundColor="color3" color="color4" display="flex" width="50vw" justifyContent="space-between" alignItems="center" padding="15px"> 
+                <Box margin="1vh 0" backgroundColor="color3" color="color4" display="flex" minWidth="400px" width="50vw" justifyContent="space-between" alignItems="center" padding="15px"> 
                   <Heading size="lg" fontWeight="100" width="20vw">Resumen de cuentas</Heading>
                   <Box display="flex" alignItems="center">
                     <Box>
@@ -67,7 +67,7 @@ export default function Contratos({history}) {
 {perfil && perfil.contratosDetalle && perfil.contratosDetalle.map((contrato, id) => (
                   <Box margin="1vh 0" key={id}>
                     <Collapse startingHeight={135} isOpen={contrato.show}>
-                      <Box height="135px" backgroundColor="color1" color="color4" display="flex" width="50vw" justifyContent="space-between" alignItems="center" padding="15px"> 
+                      <Box height="135px" backgroundColor="color1" color="color4" display="flex" minWidth="400px" width="50vw" justifyContent="space-between" alignItems="center" padding="15px"> 
                         <Box>
                           <Heading size="md" fontWeight="100" width="20vw">Contrato</Heading>
                           <Heading size="lg" fontWeight="100" width="20vw">{contrato.NoContrato[0]}</Heading>
@@ -81,7 +81,7 @@ export default function Contratos({history}) {
                           <Button size="md" onClick={() => go('/clientes',id)} leftIcon={MdAttachMoney} backgroundColor="color3" variant="solid">Pagar</Button>
                         </Box>
                       </Box>
-                      <Box height="135px" display="flex"  flexDirection="column" width="50vw" padding="15px" color="color1" backgroundColor="color2">
+                      <Box height="150px" display="flex"  flexDirection="column" minWidth="400px" width="50vw" padding="15px" color="color1" backgroundColor="color2">
                         <Box display="flex" flexWrap="wrap" justifyContent="space-around" alignItems="center">
                           <Box width="15%">
                             <Text fontSize="sm" fontWeight="bold">Saldo insoluto</Text>
@@ -110,7 +110,9 @@ export default function Contratos({history}) {
                       </Box>
 
                     </Collapse>
-                    {contrato.show ? <Box height="14px" backgroundColor="color2" width="50vw"><IconButton height="14px" size="sm" onClick={()=>handleToggle(id)} aria-label="Search database" icon="chevron-up" /></Box> : <Box height="14px" backgroundColor="color1" width="50vw"><IconButton height="14px" size="sm" onClick={()=>handleToggle(id)} aria-label="Search database" icon="chevron-down"  backgroundColor="color1"/></Box>}
+                    {contrato.show 
+                    ? <Box height="14px" backgroundColor="color2" minWidth="400px" width="50vw"><IconButton height="14px" size="sm" onClick={()=>handleToggle(id)} aria-label="Search database" icon="chevron-up" /></Box> 
+                    : <Box height="14px" backgroundColor="color1" minWidth="400px"  width="50vw"><IconButton height="14px" size="sm" onClick={()=>handleToggle(id)} aria-label="Search database" icon="chevron-down"  backgroundColor="color1"/></Box>}
                   </Box>
                 ))}
 

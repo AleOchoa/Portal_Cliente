@@ -30,7 +30,7 @@ class MyProvider extends Component {
     loggedUser: null,
     isLogged: false,
     perfil:null,
-    indxContrato:null,
+    indxContrato:0,
     isAdmin:false,
     edoCuenta:{
       contrato:'',

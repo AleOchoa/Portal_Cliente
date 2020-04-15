@@ -8,7 +8,6 @@ import {
     StyleSheet,
     Image
 } from "@react-pdf/renderer";
-//import moment from "moment";
 
 
 const styles = StyleSheet.create({

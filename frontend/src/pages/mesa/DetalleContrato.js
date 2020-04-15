@@ -1,7 +1,10 @@
 import React, {useContext,useEffect} from 'react';
-import {Flex, Text, SimpleGrid,Divider,Box,Select,List, ListItem, Link } from "@chakra-ui/core";
+import {Flex, Text, SimpleGrid,Divider,Box,Select,List,ListItem, Link } from "@chakra-ui/core";
 import {MyContext} from '../../context'
-import { FaUser} from 'react-icons/fa';
+import { FaUser,FaRegFilePdf,FaRegFileExcel} from 'react-icons/fa';
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { PdfDocument } from "../mesa/PdfDocument";
+import { CSVLink } from 'react-csv'
 
 export default function DetalleContrato({history}) {  
     const context = useContext(MyContext)
@@ -14,15 +17,20 @@ export default function DetalleContrato({history}) {
       await context.setContratoDetalle(e.target.value)
     }
     let contrato=null
-    
-    if (context.state.perfil) {contrato=context.state.perfil.contratosDetalle[context.state.indxContrato]}
+    let infoExcel=[]
+    if (context.state.perfil) {
+      contrato=context.state.perfil.contratosDetalle[context.state.indxContrato]
+      contrato.DetalleMovimientos.forEach(registro=>{
+      infoExcel.push({Fecha:registro.MvFechavalor,Descripcion:registro.MvDescripcion,Importe:registro.MvTotalMovimiento})
+      })
+    }
     
     const go = path => history.push(path)
     return (
         <MyContext.Consumer>
           {context => {
             return (
-              <Flex width="50vw" color="color1" wrap="wrap" flexDirection="column" alignContent="center">
+              <Flex  minWidth="400px" justifySelf="center" width="50vw" color="color1" wrap="wrap" flexDirection="column" alignContent="center">
                 {perfil && contrato.NoContrato && <>
                     <Divider borderColor="color3" borderWidth="2px"/>
                     <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -53,28 +61,39 @@ export default function DetalleContrato({history}) {
                       <Box>Fecha: <Text as="span" color="color3">{contrato.FechaCorte} </Text></Box>
                     </Box>
                     <br/>
-                    <Box display="flex" textAlign="left" justifyContent="space-between">
-                        <Box width="45%">
-                          <Box display="flex" justifyContent="space-between" ><Text as="span" fontWeight="bold">Fecha de apertura:</Text>  {contrato.FechaApertura} </Box>
-                          <Box display="flex" justifyContent="space-between" ><Text as="span" fontWeight="bold">Fecha de término:</Text>  {contrato.FechaTermino} </Box>
-                          <Box display="flex" justifyContent="space-between" ><Text as="span" fontWeight="bold">Monto del crédito:</Text>  {contrato.MontoFinanciado} </Box>
-                          <Box display="flex" justifyContent="space-between" ><Text as="span" fontWeight="bold">Tasa interés anual:</Text>  {contrato.Tasa[0]} % </Box>
-                          <Box display="flex" justifyContent="space-between" ><Text as="span" fontWeight="bold">Fecha último corte:</Text>  {contrato.FechaCorte} </Box>
-                        </Box>
-                        <Box width="45%">
-                          <Box display="flex" justifyContent="space-between"><Text as="span" fontWeight="bold">Saldo insoluto:</Text>  {contrato.SaldoInsoluto} </Box>
-                          <Box display="flex" justifyContent="space-between"><Text as="span" fontWeight="bold">Saldo a favor:</Text>  {contrato.SaldoAFavor} </Box>
-                          <Box display="flex" justifyContent="space-between"><Text as="span" fontWeight="bold">Saldo vencido:</Text>  {contrato.SaldoVencido} </Box>
-                          <Box display="flex" justifyContent="space-between"><Text as="span" fontWeight="bold">Intereses a la fecha:</Text>  {contrato.InteresesXPagar} </Box>
-                          <Box display="flex" justifyContent="space-between"><Text as="span" fontWeight="bold">Saldo total:</Text>  {contrato.SaldoAlCorte} </Box>
-                        </Box>
+                    <SimpleGrid columns={2} >
+                          <Box display="flex" padding="0 20px 0 0px" textAlign="left" justifyContent="space-between" ><Text as="span" fontWeight="bold">Fecha de apertura:</Text>  {contrato.FechaApertura} </Box>
+                          <Box display="flex" padding="0 0px 0 20px" textAlign="left" justifyContent="space-between"><Text as="span" fontWeight="bold">Saldo insoluto:</Text>  {contrato.SaldoInsoluto} </Box>
+                          <Box display="flex" padding="0 20px 0 0px" textAlign="left" justifyContent="space-between" ><Text as="span" fontWeight="bold">Fecha de término:</Text>  {contrato.FechaTermino} </Box>
+                          <Box display="flex" padding="0 0px 0 20px" textAlign="left" justifyContent="space-between"><Text as="span" fontWeight="bold">Saldo a favor:</Text>  {contrato.SaldoAFavor} </Box>
+                          <Box display="flex" padding="0 20px 0 0px" textAlign="left" justifyContent="space-between" ><Text as="span" fontWeight="bold">Monto del crédito:</Text>  {contrato.MontoFinanciado} </Box>
+                          <Box display="flex" padding="0 0px 0 20px" textAlign="left" justifyContent="space-between"><Text as="span" fontWeight="bold">Saldo vencido:</Text>  {contrato.SaldoVencido} </Box>
+                          <Box display="flex" padding="0 20px 0 0px" textAlign="left" justifyContent="space-between" ><Text as="span" fontWeight="bold">Tasa interés anual:</Text>  {contrato.Tasa[0]} % </Box>
+                          <Box display="flex" padding="0 0px 0 20px" textAlign="left" justifyContent="space-between"><Text as="span" fontWeight="bold">Intereses a la fecha:</Text>  {contrato.InteresesXPagar} </Box>
+                          <Box display="flex" padding="0 20px 0 0px" textAlign="left" justifyContent="space-between" ><Text as="span" fontWeight="bold">Fecha último corte:</Text>  {contrato.FechaCorte} </Box>
+                          <Box display="flex" padding="0 0px 0 20px" textAlign="left" justifyContent="space-between"><Text as="span" fontWeight="bold">Saldo total:</Text>  {contrato.SaldoAlCorte} </Box>
+                      </SimpleGrid> 
+{/* Descarga info */}
+                    <Box color='color3' height="auto" display='flex' justifyContent='flex-end'>
+{/*descarga pdf*/}
+                      <PDFDownloadLink
+                          document={<PdfDocument data={{...perfil.edoCuenta[contrato.NoContrato[0]][contrato.FechaCorte.substring(3,11)],...perfil.cliente}} />}
+                          fileName={`EdoCuenta${contrato.NoContrato[0]}${contrato.FechaCorte.substring(3,11)}.pdf`}
+                        >
+                          <Box width='30px' height="auto" as={FaRegFilePdf} />
+                      </PDFDownloadLink>
+{/*Descarga excel */}
+                      <CSVLink data={infoExcel} filename={`DetalleMovimientos${contrato.NoContrato[0]}${contrato.FechaCorte.substring(3,11)}.csv`}>
+                          <Box width='30px' height="auto" as={FaRegFileExcel} />
+                      </CSVLink>
                     </Box>
+{/*Tabla con detalle movimientos */}
                     <List>
                       <ListItem>
                         <Divider borderColor="color1"  borderWidth="2px"/>
-                        <SimpleGrid color="color3" columns={5} spacing={10}>
-                            <Text>Fecha</Text>
-                            <Text gridColumn="2/5">Descripción</Text>
+                        <SimpleGrid color="color3" columns={6} spacing={10}>
+                            <Text gridColumn="1/3">Fecha</Text>
+                            <Text gridColumn="3/6">Descripción</Text>
                             <Text>Importe</Text>
                         </SimpleGrid>
                         <Divider borderColor="color1" borderWidth="2px" />
@@ -83,9 +102,9 @@ export default function DetalleContrato({history}) {
                         contrato.DetalleMovimientos.map((movimiento,indx)=>{
                           return (
                             <ListItem key={indx}>
-                            <SimpleGrid columns={5} spacing={10}>
-                              <Text>{movimiento.MvFechavalor}</Text>
-                              <Text gridColumn="2/5">{movimiento.MvDescripcion}</Text>
+                            <SimpleGrid columns={6} spacing={10}>
+                              <Text gridColumn="1/3">{movimiento.MvFechavalor}</Text>
+                              <Text gridColumn="3/6">{movimiento.MvDescripcion}</Text>
                               <Text>{movimiento.MvTotalMovimiento}</Text>
                             </SimpleGrid>
                           </ListItem> 

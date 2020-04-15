@@ -128,14 +128,15 @@ const styles = StyleSheet.create({
       tableColHeader: {
         borderBottomColor: '#000',
         borderColor:  '#FF6F00',
-        width:"50%"
+        width:"50%",
+        textAlign:'left'
       },
     
         tableCellHeader: {
         margin: 1,
         borderColor:  '#FF6F00',
         fontSize: 12,
-        textAlign: 'center',
+        textAlign: 'left',
         borderRightWidth: 1,
          
       },
@@ -349,8 +350,10 @@ export function PdfDocument(props) {
             {contrato.Municipio} {contrato.Estado} {"\n"} {contrato.RFC} {"\n"}NO CLIENTE:{contrato.NoCliente} {"\n"}NO CONTRATO:{contrato.NoContrato}</Text>
     </View>
     <View style={styles.rightColumn1}>
-        <Text >MONTO FINANCIADO{contrato.MontoFinanciado} {"\n"} CAPITAL NO EXIGIBLE{contrato.SaldoInsoluto}{"\n"}CAT SIN IVA (COSTO ANUAL TOTAL){contrato.CAT}% {"\n"} TASA DE INTERÉS ORDINARIA{contrato.Tasa[0]}{"\n"}
+        <Text >MONTO FINANCIADO{contrato.MontoFinanciado}  {"\n"} CAPITAL NO EXIGIBLE{contrato.SaldoInsoluto}{"\n"}CAT SIN IVA (COSTO ANUAL TOTAL){contrato.CAT}% {"\n"} TASA DE INTERÉS ORDINARIA{contrato.Tasa[0]}{"\n"}
            TASA DE INTERÉS MORATORIA  {contrato.TasaMora[0]} {"\n"} INTERESES COBRADOS{contrato.InteresPeriodo} {"\n"}COMISIONES CARGADAS{contrato.ComisionesPeriodo} </Text>
+    
+    
     </View>
     </View>
 
@@ -364,10 +367,10 @@ export function PdfDocument(props) {
     <View style={styles.table}wrap>
     <View style={styles.tableRow}>
     <View style={styles.tableColHeader}>			  		       
-        <Text style={styles.tableCellHeader}>{contrato.MontoFinanciado}{'\n\n'} CORTE</Text>
-        <Text style={styles.tableCellHeader}>SALDO AL CORTE</Text>
-        <Text style={styles.tableCellHeader}>SALDO AL CORTE</Text>
-        <Text style={styles.tableCellHeader}>SALDO AL CORTE</Text>
+        <Text style={styles.tableCellHeader}>SALDO AL CORTE      {contrato.SaldoAlCorte}{'\n'}   SALDO AL CORTE ANTERIOR       {contrato.SaldoAlCorteAnterior}{'\n'}   + CARGOS DEL MES       {contrato.CargosDelPeriodo}{'\n'}   (-) PAGOS Y ABONOS       {contrato.PagosDelPeriodo}</Text>
+        <Text style={styles.tableCellHeader}>PROXIMI VENCIMIENTO      {contrato.MontoProxVenc} {'\n'}</Text>
+        <Text style={styles.tableCellHeader}>TOTAL  A PAGAR      {contrato.TotalAPagar}{'\n'}   CAPITAL       {contrato.CapitalPeriodo}{'\n'}   INTERES       {contrato.InteresPeriodo}{'\n'}   COMISIONES       {contrato.ComisionesPeriodo}{'\n'}   OTROS CARGOD       {contrato.OtrosCargosPeriodo}{'\n'}   IVA       {contrato.IVAPeriodo}</Text>
+        
     </View>
     <View style={styles.tableColHeader}>			  		       
       <Image style={styles.imagen} src="/logo.png"/>

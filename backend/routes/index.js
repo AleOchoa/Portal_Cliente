@@ -35,7 +35,7 @@ router.get('/perfil/:iduser',async (req,res)=>{
                                         on A.IdContrato=B.IdContrato and A.FechaCorte=B.FechaCorte) S
                                       ON C.IdContrato=s.IdContrato
                                     WHERE C.IdCliente=${iduser};
-                                SELECT * FROM SaldosEdoCuenta WHERE IdContrato IN (SELECT IdContrato FROM Contrato WHERE IdCliente=${iduser});
+                                SELECT S.*,C.MontoFinanciado FROM SaldosEdoCuenta S left outer join Contrato C on S.IdContrato=C.IdContrato WHERE C.IdCliente=${iduser};
                                 select * from AvisoVencimiento where IdContrato in (select IdContrato from Contrato where IdCliente=${iduser});
                                 select * from DetalleMovimientos where IdContrato in (select IdContrato from Contrato where IdCliente=${iduser});
                                 select NoCliente,max(A.FechaCorte) as FechaCorte,sum(SaldoAlCorte) as SaldoAlCorte from SaldosEdoCuenta A inner join 

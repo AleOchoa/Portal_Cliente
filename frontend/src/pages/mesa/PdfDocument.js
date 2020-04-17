@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FF6F00',
         color: '#fff',
         padding:'10px',
-        width:'60%',
+        width:'50%',
         borderRadius:'10',
         borderStyle: "solid", 
         borderColor: '#FF6F00',
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         borderStyle: "solid", 
         borderWidth: 3,
         padding:'10px',
-        width:'35%',
+        width:'45%',
         borderRadius:'10',
     },
     imagen:{
@@ -277,6 +277,22 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'grey',
       },
+      contenedorTres:{
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'space-between',
+        fontSize: 10,
+      },
+      contenedorNTres:{
+        width:'75%',
+      },
+      contenedorBTres:{
+        
+        borderStyle: "solid", 
+        textAlign:'right',
+        width:'29%',
+        borderRadius:'10',
+    },
 
 
         
@@ -344,38 +360,49 @@ export function PdfDocument(props) {
     </View>
 </View>      
 
-    <View style={styles.container}>
-    <View style={styles.leftColumn1}>
-        <Text>{contrato.NombreCliente} {"\n"} {contrato.Calle}{contrato.NoExt}{"\n"}COL.{contrato.Colonia} CP.{contrato.CodigoPostal}{"\n"}
-            {contrato.Municipio} {contrato.Estado} {"\n"} {contrato.RFC} {"\n"}NO CLIENTE:{contrato.NoCliente} {"\n"}NO CONTRATO:{contrato.NoContrato}</Text>
+<View style={styles.container}>
+      <View style={styles.leftColumn1}>
+        <View style={styles.contenedorTres}>
+          <View style={styles.contenedorNTres}>
+            <Text>{contrato.NombreCliente}{'\n'}{contrato.Calle}{"\n"}COL. {contrato.Colonia}  CP. {contrato.CodigoPostal}{"\n"} {contrato.Municipio} {contrato.Estado}{"\n"}{contrato.RFC} {"\n"}NO CLIENTE: {contrato.NoCliente}{"\n"}NO CONTRATO: {contrato.NoContrato}</Text>
+          </View>
+        </View>
+      </View>
+      
+      <View style={styles.rightColumn1}>
+          <View style={styles.contenedorTres}>
+          <View style={styles.contenedorNTres}>
+          <Text >MONTO FINANCIADO{"\n"}CAPITAL NO EXIGIBLE{"\n"}CAT SIN IVA (COSTO ANUAL TOTAL){"\n"}TASA DE INTERÉS ORDINARIA{"\n"}
+           TASA DE INTERÉS MORATORIA{"\n"}INTERESES COBRADOS{"\n"}COMISIONES CARGADAS</Text>
+            <Text>NO DE CLIENTE</Text>
+          </View>
+           <View style={styles.contenedorBTres}> 
+           <Text>{contrato.MontoFinanciado}{"\n"}{contrato.SaldoInsoluto}{"\n"}{contrato.CAT}%{"\n"}{"\n"}{contrato.Tasa}{"\n"}{contrato.TasaMora}{"\n"}{contrato.InteresPeriodo}{"\n"}{contrato.ComisionesPeriodo}</Text>
+          </View>
+        </View>
+        </View>
     </View>
-    <View style={styles.rightColumn1}>
-        <Text >MONTO FINANCIADO{contrato.MontoFinanciado}  {"\n"} CAPITAL NO EXIGIBLE{contrato.SaldoInsoluto}{"\n"}CAT SIN IVA (COSTO ANUAL TOTAL){contrato.CAT}% {"\n"} TASA DE INTERÉS ORDINARIA{contrato.Tasa[0]}{"\n"}
-           TASA DE INTERÉS MORATORIA  {contrato.TasaMora[0]} {"\n"} INTERESES COBRADOS{contrato.InteresPeriodo} {"\n"}COMISIONES CARGADAS{contrato.ComisionesPeriodo} </Text>
-    
-    
-    </View>
-    </View>
+   
 
     <View style={styles.container}>
-    <View style={styles.contenedorNaranjaT}>
-        <Text >RESUMEN DEL PRERIODO</Text>
-        <Text>DEL 13 DE eNERO 2020 AL 13 DE ABRIL 2020</Text>
-    </View>
+      <View style={styles.contenedorNaranjaT}>
+          <Text >RESUMEN DEL PRERIODO</Text>
+          <Text>DEL 13 DE ENERO 2020 AL 13 DE ABRIL 2020</Text>
+      </View>
     </View> 
 
     <View style={styles.table}wrap>
-    <View style={styles.tableRow}>
-    <View style={styles.tableColHeader}>			  		       
-        <Text style={styles.tableCellHeader}>SALDO AL CORTE      {contrato.SaldoAlCorte}{'\n'}   SALDO AL CORTE ANTERIOR       {contrato.SaldoAlCorteAnterior}{'\n'}   + CARGOS DEL MES       {contrato.CargosDelPeriodo}{'\n'}   (-) PAGOS Y ABONOS       {contrato.PagosDelPeriodo}</Text>
-        <Text style={styles.tableCellHeader}>PROXIMI VENCIMIENTO      {contrato.MontoProxVenc} {'\n'}</Text>
-        <Text style={styles.tableCellHeader}>TOTAL  A PAGAR      {contrato.TotalAPagar}{'\n'}   CAPITAL       {contrato.CapitalPeriodo}{'\n'}   INTERES       {contrato.InteresPeriodo}{'\n'}   COMISIONES       {contrato.ComisionesPeriodo}{'\n'}   OTROS CARGOD       {contrato.OtrosCargosPeriodo}{'\n'}   IVA       {contrato.IVAPeriodo}</Text>
-        
-    </View>
-    <View style={styles.tableColHeader}>			  		       
-      <Image style={styles.imagen} src="/logo.png"/>
-    </View>
-    </View>      
+      <View style={styles.tableRow}>
+      <View style={styles.tableColHeader}>			  		       
+          <Text style={styles.tableCellHeader}>SALDO AL CORTE      {contrato.SaldoAlCorte}{'\n'}   SALDO AL CORTE ANTERIOR       {contrato.SaldoAlCorteAnterior}{'\n'}   + CARGOS DEL MES       {contrato.CargosDelPeriodo}{'\n'}   (-) PAGOS Y ABONOS       {contrato.PagosDelPeriodo}</Text>
+          <Text style={styles.tableCellHeader}>PROXIMI VENCIMIENTO      {contrato.MontoProxVenc} {'\n'}</Text>
+          <Text style={styles.tableCellHeader}>TOTAL  A PAGAR      {contrato.TotalAPagar}{'\n'}   CAPITAL       {contrato.CapitalPeriodo}{'\n'}   INTERES       {contrato.InteresPeriodo}{'\n'}   COMISIONES       {contrato.ComisionesPeriodo}{'\n'}   OTROS CARGOD       {contrato.OtrosCargosPeriodo}{'\n'}   IVA       {contrato.IVAPeriodo}</Text>
+          
+      </View>
+      <View style={styles.tableColHeader}>			  		       
+        <Image style={styles.imagen} src="/logo.png"/>
+      </View>
+      </View>      
     </View>
 
     <View style={styles.container}>

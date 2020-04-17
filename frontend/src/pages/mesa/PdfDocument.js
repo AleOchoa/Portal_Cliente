@@ -287,7 +287,6 @@ const styles = StyleSheet.create({
         width:'75%',
       },
       contenedorBTres:{
-        
         borderStyle: "solid", 
         textAlign:'right',
         width:'29%',
